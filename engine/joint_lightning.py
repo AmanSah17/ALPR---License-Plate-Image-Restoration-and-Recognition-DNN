@@ -81,7 +81,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
     def __init__(
         self,
         model_name: str,
-        parseq: nn.Module,
+        ocr_supervisor: 'OCRSupervisor',
+        val_ocr_validator: 'FastPlateOCRValidator',
         device_str: str = "cuda",
         pretrained_ckpt: Optional[str] = None,
         lr: float = 5e-5,
@@ -97,12 +98,17 @@ class JointOptimizationLightningModule(pl.LightningModule):
         refinement_enabled: bool = True,
     ):
         super().__init__()
-        self.save_hyperparameters(ignore=["parseq"])
+        self.save_hyperparameters(ignore=["ocr_supervisor", "val_ocr_validator"])
+        
         self.model_name = model_name
-
-        # ── 1. Restoration Model ────────────────────────────────────────────
+        self.ocr_supervisor = ocr_supervisor
+        self.val_ocr_validator = val_ocr_validator
+        
+        # 1. Initialize restoration model from registry
         initialize_registry()
         self.restoration_model = ModelRegistry.build(model_name)
+        if use_gradient_checkpointing and hasattr(self.restoration_model, "gradient_checkpointing"):
+            self.restoration_model.gradient_checkpointing = True
 
         # Load pretrained weights if provided (Phase 4 best checkpoint)
         if pretrained_ckpt and Path(pretrained_ckpt).exists():
@@ -124,21 +130,18 @@ class JointOptimizationLightningModule(pl.LightningModule):
         # ── 2. OCR Refinement Hook (trainable) ──────────────────────────────
         self.refinement = OCRRefinementHook(channels=3, enabled=refinement_enabled)
 
-        # ── 3. PARSeq (fully frozen) ────────────────────────────────────────
-        self.parseq = parseq
-        for p in self.parseq.parameters():
-            p.requires_grad_(False)
-        self.parseq.eval()
-
-        # ── 4. Joint Loss ───────────────────────────────────────────────────
+        # ── 3. Joint Loss ───────────────────────────────────────────────────
         dev = torch.device(device_str if torch.cuda.is_available() else "cpu")
-        weights = JointLossWeights(
-            pixel_weight=pixel_weight,
-            ocr_weight=ocr_weight,
-            feat_weight=feat_weight,
-            ocr_warmup_epochs=ocr_warmup_epochs,
+        self.criterion = JointLoss(
+            ocr_supervisor=ocr_supervisor,
+            device=dev,
+            weights=JointLossWeights(
+                pixel_weight=pixel_weight,
+                ocr_weight=ocr_weight,
+                feat_weight=feat_weight,
+                ocr_warmup_epochs=ocr_warmup_epochs
+            )
         )
-        self.criterion = JointLoss(parseq=self.parseq, device=dev, weights=weights)
 
         # ── Tracking ────────────────────────────────────────────────────────
         self._val_preds: List[str] = []
@@ -216,11 +219,15 @@ class JointOptimizationLightningModule(pl.LightningModule):
         psnr = compute_psnr(p0, t0)
         ssim = compute_ssim(p0, t0)
 
-        # ── PARSeq OCR decode ─────────────────────────────────────────────
-        ocr_input = TF.resize(pred, (32, 128), antialias=True) * 2.0 - 1.0
-        logits = self.parseq(ocr_input)
-        probs  = logits.softmax(-1)
-        labels, _ = self.parseq.tokenizer.decode(probs)
+        # ── Modular OCR decode ────────────────────────────────────────────
+        # FastPlateOCR Validator is preferred for Sequence Accuracy validation
+        if self.val_ocr_validator is not None and self.val_ocr_validator.recognizer is not None:
+            labels = self.val_ocr_validator.decode_images(pred)
+        else:
+            # Fallback to the training OCR supervisor
+            logits = self.ocr_supervisor(pred)
+            labels = self.ocr_supervisor.decode_logits(logits)
+            
         self._val_preds.extend(labels)
         self._val_gts.extend(texts)
 

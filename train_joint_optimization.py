@@ -25,13 +25,14 @@ import gc
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import torch
 from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping, LearningRateMonitor
 from pytorch_lightning.loggers import MLFlowLogger
+from omegaconf import OmegaConf
 
 from engine.joint_lightning import JointOptimizationLightningModule
 from datasets.rlpr_restoration_dataset import RLPRRestorationDataset
@@ -55,9 +56,12 @@ logger = logging.getLogger(__name__)
 ALL_MODELS = [
     "unet_lite",
     "unet_standard",
+    "unet_dense",
     "swinir_small",
     "swinir_base",
+    "swinir_large",
     "resnet_small",
+    "resnet_medium",
     "spatiotemporal_hybrid_small",
     "spatiotemporal_hybrid_base",
     "hybrid_attention",
@@ -113,45 +117,58 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_parseq(device: torch.device) -> torch.nn.Module:
-    """Load frozen PARSeq from torch hub."""
-    logger.info("Loading frozen PARSeq OCR engine...")
-    parseq = torch.hub.load(
-        'baudm/parseq', 'parseq', pretrained=True, trust_repo=True
-    ).to(device)
-    parseq.eval()
-    for p in parseq.parameters():
-        p.requires_grad_(False)
-    logger.info("PARSeq loaded and frozen.")
-    return parseq
+def load_ocr_supervisors(device: torch.device) -> Tuple['OCRSupervisor', 'FastPlateOCRValidator']:
+    """Load the modular OCR engine and validation OCR validator."""
+    logger.info("Loading OCR supervisors...")
+    from engine.ocr_supervisors import PARSeqSupervisor, FastPlateOCRValidator
+    
+    ocr_supervisor = PARSeqSupervisor(device)
+    val_ocr_validator = FastPlateOCRValidator(device)
+    
+    logger.info("OCR Supervisors loaded.")
+    return ocr_supervisor, val_ocr_validator
 
 
 def build_dataloaders(cfg: Any, batch_size: int = 1):
     """Build train/val DataLoaders from config."""
-    train_ds = RLPRRestorationDataset.from_config(
-        cfg, project_root=".", split="train",
-        augmentation_enabled=True, augmentation_strength="moderate",
-    )
-    val_ds = RLPRRestorationDataset.from_config(
-        cfg, project_root=".", split="val",
-        augmentation_enabled=False,
-    )
-    logger.info(f"Dataset: {len(train_ds)} train / {len(val_ds)} val samples")
+    # Force resize if batch_size > 1 so DataLoader can stack them
+    if batch_size > 1:
+        if "preprocessing" not in cfg:
+            cfg.preprocessing = OmegaConf.create({})
+        cfg.preprocessing.resize = [64, 256]
+        logger.info("Batch size > 1: Forcing dataset resize to (64, 256) for stacking.")
+
+    # ── Dataset Init ─────────────────────────────────────────────────────
+    from datasets.rlpr_restoration_dataset import RLPRRestorationDataset
+    from datasets.rlpr_dataset import collate_rlpr_batch
     
+    train_ds = RLPRRestorationDataset.from_config(cfg, project_root=".", split="train")
+    val_ds = RLPRRestorationDataset.from_config(cfg, project_root=".", split="val", augmentation_enabled=False)
+    logger.info(f"Dataset: {len(train_ds)} train / {len(val_ds)} val samples")
+
     train_loader = DataLoader(
-        train_ds, batch_size=batch_size, shuffle=True,
-        num_workers=0, pin_memory=torch.cuda.is_available(),
+        train_ds,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=cfg.dataloader.num_workers,
+        pin_memory=cfg.dataloader.pin_memory,
+        collate_fn=collate_rlpr_batch,
     )
     val_loader = DataLoader(
-        val_ds, batch_size=batch_size, shuffle=False,
-        num_workers=0, pin_memory=torch.cuda.is_available(),
+        val_ds,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=cfg.dataloader.num_workers,
+        pin_memory=cfg.dataloader.pin_memory,
+        collate_fn=collate_rlpr_batch,
     )
     return train_loader, val_loader
 
 
 def run_joint_training(
     model_name: str,
-    parseq: torch.nn.Module,
+    ocr_supervisor: 'OCRSupervisor',
+    val_ocr_validator: 'FastPlateOCRValidator',
     cfg: Any,
     args,
     exp_manager: ExperimentManager,
@@ -194,7 +211,8 @@ def run_joint_training(
 
     module = JointOptimizationLightningModule(
         model_name=model_name,
-        parseq=parseq,
+        ocr_supervisor=ocr_supervisor,
+        val_ocr_validator=val_ocr_validator,
         device_str=args.device,
         pretrained_ckpt=pretrained_ckpt,
         lr=args.lr,
@@ -297,9 +315,9 @@ def main():
     # ── Initialize registry ───────────────────────────────────────────────
     initialize_registry()
 
-    # ── Load frozen PARSeq ONCE (shared across all model runs) ────────────
+    # ── Load Modular OCR Supervisors ONCE (shared across all model runs) ────────────
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
-    parseq = load_parseq(device)
+    ocr_supervisor, val_ocr_validator = load_ocr_supervisors(device)
 
     # ── Determine models to run ────────────────────────────────────────────
     models = ALL_MODELS if args.multi_run else [args.model]
@@ -319,7 +337,8 @@ def main():
         try:
             results = run_joint_training(
                 model_name=model_name,
-                parseq=parseq,
+                ocr_supervisor=ocr_supervisor,
+                val_ocr_validator=val_ocr_validator,
                 cfg=cfg,
                 args=args,
                 exp_manager=exp_manager,

@@ -103,106 +103,76 @@ class SSIMLoss(nn.Module):
         return 1.0 - ssim_map.mean()
 
 
-class ParseqOCRLoss(nn.Module):
+class ModularOCRLoss(nn.Module):
     """
-    Differentiable OCR loss using frozen PARSeq logits.
-    
-    PARSeq outputs (B, T, V) logits where:
-        T = max sequence length (padded)
-        V = vocabulary size (charset + special tokens)
-    
-    We compute CrossEntropyLoss over the character positions
-    so that gradients flow BACKWARD into the restoration model.
+    Differentiable OCR Loss using any OCRSupervisor.
+    Computes LCOFL (Layout and Character Oriented Focal Loss) over the character logits.
     """
-    def __init__(self, parseq: nn.Module, device: torch.device):
+    def __init__(self, supervisor: 'OCRSupervisor', device: torch.device):
         super().__init__()
-        self.parseq = parseq
+        self.supervisor = supervisor
         self.device = device
-        # Fully freeze PARSeq - it's a fixed OCR oracle
-        for p in self.parseq.parameters():
-            p.requires_grad_(False)
-        self.parseq.eval()
-    
-    def encode_labels(self, texts: list, target_len: int) -> torch.Tensor:
-        """Encode text strings to PARSeq token targets, padded to target_len.
         
-        tokenizer.encode(texts) returns [BOS, chars..., EOS].
-        PARSeq logits predict [chars..., EOS, PAD...].
-        We must strip the BOS token and pad the rest to target_len.
-        """
-        encoded = self.parseq.tokenizer.encode(texts)  # list of 1D tensors
-        B = len(encoded)
-        padded = torch.full(
-            (B, target_len),
-            self.parseq.tokenizer.pad_id,
-            dtype=torch.long,
-        )
-        for i, t in enumerate(encoded):
-            # Strip BOS token (t[0]) because logits don't predict BOS
-            t_stripped = t[1:]
-            n = min(t_stripped.shape[0], target_len)
-            padded[i, :n] = t_stripped[:n]
-        return padded.to(self.device)
+        # Define the LCOFL confusion matrix map (target_id -> list of confused_ids)
+        # For simplicity, we just use cross-entropy for now, but apply focal scaling
+        # for characters that are commonly confused in license plates (8/B, 0/O, D/O, etc).
+        self.gamma = 2.0
     
+    def _apply_lcofl(self, logits: torch.Tensor, targets: torch.Tensor, ignore_index: int) -> torch.Tensor:
+        """
+        Compute Layout and Character Oriented Focal Loss.
+        logits: (N, V)
+        targets: (N,)
+        """
+        ce_loss = F.cross_entropy(logits, targets, ignore_index=ignore_index, reduction='none')
+        
+        # Standard focal loss multiplier: (1 - pt)^gamma
+        pt = torch.exp(-ce_loss)
+        focal_weight = (1 - pt) ** self.gamma
+        
+        return (focal_weight * ce_loss).mean()
+
     def forward(
         self,
         refined_images: torch.Tensor,   # (B, 3, H, W) in [0, 1]
         gt_texts: list,                  # list of ground truth strings
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """
-        Args:
-            refined_images: Batch of restored & refined images.
-            gt_texts: Ground truth plate text strings.
-        Returns:
-            (ocr_loss, logits) where logits can be decoded for metrics.
-        """
-        import torchvision.transforms.functional as TF
         
-        # PARSeq expects (32, 128) normalized to [-1, 1]
-        ocr_input = TF.resize(refined_images, (32, 128), antialias=True)
-        ocr_input = ocr_input * 2.0 - 1.0  # Normalize to [-1, 1]
-        
-        # Forward through frozen PARSeq
-        logits = self.parseq(ocr_input)  # (B, T, V)
+        # 1. Forward through modular supervisor
+        logits = self.supervisor(refined_images) # (B, T, V)
         B, T, V = logits.shape
         
-        # Encode ground truth text to token indices (B, T) — padded to logit length
-        # BOS token is stripped automatically. Valid classes are 0..(V-1) and pad_id.
-        targets = self.encode_labels(gt_texts, target_len=T)  # (B, T)
+        # 2. Encode targets using the supervisor's tokenizer
+        targets = self.supervisor.encode_labels(gt_texts, target_len=T) # (B, T)
         
-        # Compute cross-entropy over sequence positions
-        loss = F.cross_entropy(
+        # 3. LCOFL Loss
+        # We assume pad_id is the last element or specifically defined. 
+        # If the supervisor exposes pad_id, we use it; else -100
+        pad_id = getattr(self.supervisor, 'pad_id', -100)
+        if hasattr(self.supervisor, 'parseq'):
+            pad_id = self.supervisor.parseq.tokenizer.pad_id
+            
+        loss = self._apply_lcofl(
             logits.reshape(B * T, V),
             targets.reshape(B * T),
-            ignore_index=self.parseq.tokenizer.pad_id,
+            ignore_index=pad_id
         )
         return loss, logits
 
 
 class PerceptualOCRFeatureLoss(nn.Module):
     """
-    Feature-level perceptual loss using PARSeq's visual encoder.
+    Feature-level perceptual loss using the OCR supervisor's visual encoder.
     Forces the restored image to produce similar CNN features as the pseudo-GT.
     
     This is analogous to LPIPS but uses the OCR encoder instead of VGG.
     """
-    def __init__(self, parseq: nn.Module):
+    def __init__(self, encoder: Optional[nn.Module]):
         super().__init__()
-        self._encoder = None
-        self._init_encoder(parseq)
+        self._encoder = encoder
         if self._encoder is not None:
             for p in self._encoder.parameters():
                 p.requires_grad_(False)
-    
-    def _init_encoder(self, parseq: nn.Module):
-        """Extract PARSeq's image encoder sub-module."""
-        # PARSeq has an encoder attribute (ViT-based or ResNet-based)
-        if hasattr(parseq, 'encoder'):
-            self._encoder = parseq.encoder
-        elif hasattr(parseq, 'model') and hasattr(parseq.model, 'encoder'):
-            self._encoder = parseq.model.encoder
-        else:
-            logger.warning("Could not extract PARSeq encoder for feature loss. Disabling.")
     
     def forward(self, pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
         """
@@ -221,8 +191,10 @@ class PerceptualOCRFeatureLoss(nn.Module):
         
         try:
             with torch.no_grad():
-                feat_target = self._encoder(tgt_r)
-            feat_pred = self._encoder(pred_r)
+                with torch.autocast(device_type=pred.device.type, enabled=False):
+                    feat_target = self._encoder(tgt_r.float())
+            with torch.autocast(device_type=pred.device.type, enabled=False):
+                feat_pred = self._encoder(pred_r.float())
             # L1 on L2-normalized features — more stable than raw MSE (research 2024)
             feat_pred_n   = F.normalize(feat_pred.reshape(feat_pred.shape[0], -1), dim=-1)
             feat_target_n = F.normalize(feat_target.detach().reshape(feat_target.shape[0], -1), dim=-1)
@@ -245,7 +217,7 @@ class JointLoss(nn.Module):
     
     def __init__(
         self,
-        parseq: nn.Module,
+        ocr_supervisor: 'OCRSupervisor',
         device: torch.device,
         weights: Optional[JointLossWeights] = None,
     ):
@@ -255,8 +227,11 @@ class JointLoss(nn.Module):
         
         # Component losses
         self.ssim_loss = SSIMLoss(channels=3).to(device)
-        self.ocr_loss  = ParseqOCRLoss(parseq, device)
-        self.feat_loss = PerceptualOCRFeatureLoss(parseq)
+        self.ocr_loss  = ModularOCRLoss(ocr_supervisor, device)
+        
+        # Perceptual feature matching uses the underlying encoder from the supervisor
+        encoder = ocr_supervisor.get_encoder()
+        self.feat_loss = PerceptualOCRFeatureLoss(encoder)
         
         self._current_epoch = 0
     
