@@ -5,13 +5,13 @@ Phase 7: Joint Differentiable Loss combining:
 # - L2-normalized feature loss (more stable than raw MSE)
 # - VRAM-aware feature loss gating (skip when <500MB free)
 - Pixel-level L1/SSIM restoration loss
-- OCR Cross-Entropy loss from PARSeq logits
-- Perceptual feature matching via PARSeq encoder intermediate layers
+- OCR supervision loss from a modular differentiable OCR backend
+- Perceptual feature matching via the OCR encoder intermediate layers
 
 Loss formulation:
     L_total = λ_pixel * L_pixel(restored, pseudo_gt)
-            + λ_ocr   * L_ce(parseq_logits, gt_tokens)
-            + λ_feat  * L_feat(parseq_feats(restored), parseq_feats(pseudo_gt))
+            + λ_ocr   * L_ocr(ocr_logits, gt_tokens)
+            + λ_feat  * L_feat(ocr_feats(restored), ocr_feats(pseudo_gt))
 
 Copyright (c) 2024 Aman Sah (amansah1717@gmail.com)
 """
@@ -33,9 +33,11 @@ logger = logging.getLogger(__name__)
 class JointLossWeights:
     """Configuration for joint loss weighting with cosine warmup annealing."""
     pixel_weight: float = 1.0       # L1 + SSIM restoration loss weight
-    ocr_weight: float = 0.1         # PARSeq cross-entropy loss weight
+    ocr_weight: float = 0.1         # OCR supervision loss weight
     feat_weight: float = 0.05       # Perceptual feature matching weight
     ssim_weight: float = 0.1        # SSIM component of pixel loss
+    ocr_loss_type: str = "lcofl"    # ce | lcofl
+    ocr_focal_gamma: float = 2.0
     
     # Annealing: ramp OCR loss in from 0 over N epochs so pixel loss
     # stabilises the restoration network first before OCR gradient kicks in.
@@ -108,55 +110,122 @@ class ModularOCRLoss(nn.Module):
     Differentiable OCR Loss using any OCRSupervisor.
     Computes LCOFL (Layout and Character Oriented Focal Loss) over the character logits.
     """
-    def __init__(self, supervisor: 'OCRSupervisor', device: torch.device):
+    _CONFUSION_GROUPS = (
+        ("0", "O", "D", "Q"),
+        ("1", "I", "L"),
+        ("2", "Z"),
+        ("5", "S"),
+        ("6", "G"),
+        ("8", "B"),
+        ("7", "T"),
+    )
+
+    def __init__(
+        self,
+        supervisor: 'OCRSupervisor',
+        device: torch.device,
+        loss_type: str = "lcofl",
+        gamma: float = 2.0,
+    ):
         super().__init__()
         self.supervisor = supervisor
         self.device = device
-        
-        # Define the LCOFL confusion matrix map (target_id -> list of confused_ids)
-        # For simplicity, we just use cross-entropy for now, but apply focal scaling
-        # for characters that are commonly confused in license plates (8/B, 0/O, D/O, etc).
-        self.gamma = 2.0
-    
-    def _apply_lcofl(self, logits: torch.Tensor, targets: torch.Tensor, ignore_index: int) -> torch.Tensor:
+        self.loss_type = loss_type.lower()
+        self.gamma = gamma
+        self.confusion_map = self._build_confusion_map()
+
+    def _build_confusion_map(self) -> Dict[int, Tuple[int, ...]]:
+        confusion_map: Dict[int, Tuple[int, ...]] = {}
+        for group in self._CONFUSION_GROUPS:
+            token_ids = []
+            for ch in group:
+                token_id = self.supervisor.token_id_for_char(ch)
+                if token_id is not None:
+                    token_ids.append(token_id)
+            token_ids = sorted(set(token_ids))
+            for token_id in token_ids:
+                confused = tuple(other for other in token_ids if other != token_id)
+                if confused:
+                    confusion_map[token_id] = confused
+        return confusion_map
+
+    def _apply_cross_entropy(self, logits: torch.Tensor, targets: torch.Tensor, ignore_index: int) -> torch.Tensor:
+        return F.cross_entropy(logits, targets, ignore_index=ignore_index)
+
+    def _apply_lcofl(
+        self,
+        logits: torch.Tensor,
+        targets: torch.Tensor,
+        ignore_index: int,
+        positions: torch.Tensor,
+        sequence_length: int,
+    ) -> torch.Tensor:
         """
         Compute Layout and Character Oriented Focal Loss.
         logits: (N, V)
         targets: (N,)
         """
         ce_loss = F.cross_entropy(logits, targets, ignore_index=ignore_index, reduction='none')
-        
-        # Standard focal loss multiplier: (1 - pt)^gamma
-        pt = torch.exp(-ce_loss)
-        focal_weight = (1 - pt) ** self.gamma
-        
-        return (focal_weight * ce_loss).mean()
+        valid_mask = targets != ignore_index
+        if not valid_mask.any():
+            return torch.tensor(0.0, device=logits.device, requires_grad=True)
+
+        safe_targets = targets.clone()
+        safe_targets[~valid_mask] = 0
+
+        probs = logits.softmax(-1)
+        target_probs = probs.gather(1, safe_targets.unsqueeze(1)).squeeze(1).clamp_min(1e-8)
+        focal_weight = (1.0 - target_probs) ** self.gamma
+
+        confusion_weight = torch.ones_like(target_probs)
+        for target_id, confused_ids in self.confusion_map.items():
+            confused_tensor = torch.as_tensor(confused_ids, device=logits.device, dtype=torch.long)
+            mask = valid_mask & (safe_targets == target_id)
+            if not mask.any():
+                continue
+            confusion_pressure = probs[mask].index_select(1, confused_tensor).max(dim=1).values
+            confusion_weight[mask] = 1.0 + confusion_pressure
+
+        layout_weight = torch.ones_like(target_probs)
+        if sequence_length > 2:
+            edge_mask = (positions <= 1) | (positions >= sequence_length - 2)
+            layout_weight = torch.where(edge_mask, layout_weight.new_tensor(1.1), layout_weight)
+
+        total_weight = focal_weight * confusion_weight * layout_weight
+        return (ce_loss[valid_mask] * total_weight[valid_mask]).mean()
 
     def forward(
         self,
         refined_images: torch.Tensor,   # (B, 3, H, W) in [0, 1]
         gt_texts: list,                  # list of ground truth strings
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
-        
+    ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
+        if not getattr(self.supervisor, "supports_training_loss", True):
+            zero = torch.tensor(0.0, device=refined_images.device, requires_grad=True)
+            return zero, None
+
         # 1. Forward through modular supervisor
         logits = self.supervisor(refined_images) # (B, T, V)
         B, T, V = logits.shape
-        
+
         # 2. Encode targets using the supervisor's tokenizer
         targets = self.supervisor.encode_labels(gt_texts, target_len=T) # (B, T)
-        
-        # 3. LCOFL Loss
-        # We assume pad_id is the last element or specifically defined. 
-        # If the supervisor exposes pad_id, we use it; else -100
+
+        # 3. OCR loss
         pad_id = getattr(self.supervisor, 'pad_id', -100)
-        if hasattr(self.supervisor, 'parseq'):
-            pad_id = self.supervisor.parseq.tokenizer.pad_id
-            
-        loss = self._apply_lcofl(
-            logits.reshape(B * T, V),
-            targets.reshape(B * T),
-            ignore_index=pad_id
-        )
+        flat_logits = logits.reshape(B * T, V)
+        flat_targets = targets.reshape(B * T)
+        flat_positions = torch.arange(T, device=targets.device).unsqueeze(0).expand(B, T).reshape(B * T)
+
+        if self.loss_type == "ce":
+            loss = self._apply_cross_entropy(flat_logits, flat_targets, ignore_index=pad_id)
+        else:
+            loss = self._apply_lcofl(
+                flat_logits,
+                flat_targets,
+                ignore_index=pad_id,
+                positions=flat_positions,
+                sequence_length=T,
+            )
         return loss, logits
 
 
@@ -210,7 +279,7 @@ class JointLoss(nn.Module):
     
     Manages:
     - Pixel loss (L1 + SSIM)
-    - OCR loss (PARSeq CE)
+    - OCR loss (CE or LCOFL-style)
     - Perceptual feature matching
     - Loss annealing schedule
     """
@@ -227,7 +296,12 @@ class JointLoss(nn.Module):
         
         # Component losses
         self.ssim_loss = SSIMLoss(channels=3).to(device)
-        self.ocr_loss  = ModularOCRLoss(ocr_supervisor, device)
+        self.ocr_loss  = ModularOCRLoss(
+            ocr_supervisor,
+            device,
+            loss_type=self.weights.ocr_loss_type,
+            gamma=self.weights.ocr_focal_gamma,
+        )
         
         # Perceptual feature matching uses the underlying encoder from the supervisor
         encoder = ocr_supervisor.get_encoder()
@@ -272,7 +346,8 @@ class JointLoss(nn.Module):
         try:
             ocr, logits = self.ocr_loss(pred, gt_texts)
             components["ocr"] = ocr
-            components["ocr_logits"] = logits
+            if logits is not None:
+                components["ocr_logits"] = logits
         except Exception as e:
             logger.warning(f"OCR loss failed (epoch {self._current_epoch}): {e}")
             ocr = torch.tensor(0.0, device=self.device, requires_grad=True)
@@ -308,7 +383,7 @@ class JointLoss(nn.Module):
         return total, components
     
     @classmethod
-    def from_config(cls, parseq: nn.Module, device: torch.device, cfg=None) -> "JointLoss":
+    def from_config(cls, ocr_supervisor: 'OCRSupervisor', device: torch.device, cfg=None) -> "JointLoss":
         """Build JointLoss from config dict or with defaults."""
         w = JointLossWeights()
         if cfg is not None:
@@ -317,6 +392,8 @@ class JointLoss(nn.Module):
             w.ocr_weight        = float(jcfg.get("ocr_weight", w.ocr_weight))
             w.feat_weight       = float(jcfg.get("feat_weight", w.feat_weight))
             w.ssim_weight       = float(jcfg.get("ssim_weight", w.ssim_weight))
+            w.ocr_loss_type     = str(jcfg.get("ocr_loss_type", w.ocr_loss_type))
+            w.ocr_focal_gamma   = float(jcfg.get("ocr_focal_gamma", w.ocr_focal_gamma))
             w.ocr_warmup_epochs = int(jcfg.get("ocr_warmup_epochs", w.ocr_warmup_epochs))
             w.feat_warmup_epochs = int(jcfg.get("feat_warmup_epochs", w.feat_warmup_epochs))
-        return cls(parseq=parseq, device=device, weights=w)
+        return cls(ocr_supervisor=ocr_supervisor, device=device, weights=w)

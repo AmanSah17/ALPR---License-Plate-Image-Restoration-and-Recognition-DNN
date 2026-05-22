@@ -1,7 +1,7 @@
 """
 Phase 7: Joint Optimization Lightning Module.
 
-Orchestrates end-to-end training where gradients from the PARSeq OCR engine
+Orchestrates end-to-end training where gradients from the OCR supervisor
 flow backwards into the restoration / refinement networks.
 
 Architecture:
@@ -11,9 +11,9 @@ Architecture:
          ↓
     OCR Refinement Hook (trainable - edge-emphasis)
          ↓
-    PARSeq (FROZEN - OCR oracle)
+    OCR Supervisor (optionally frozen differentiable teacher)
          ↓
-    Joint Loss = λ_pixel * L1+SSIM  +  λ_ocr * CrossEntropy  +  λ_feat * PercOCR
+    Joint Loss = λ_pixel * L1+SSIM  +  λ_ocr * OCRLoss  +  λ_feat * PercOCR
 
 Copyright (c) 2024 Aman Sah (amansah1717@gmail.com)
 """
@@ -92,6 +92,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
         pixel_weight: float = 1.0,
         ocr_weight: float = 0.1,
         feat_weight: float = 0.05,
+        ocr_loss_type: str = "lcofl",
+        ocr_focal_gamma: float = 2.0,
         ocr_warmup_epochs: int = 5,
         gradient_clip_val: float = 1.0,
         use_gradient_checkpointing: bool = False,
@@ -139,6 +141,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
                 pixel_weight=pixel_weight,
                 ocr_weight=ocr_weight,
                 feat_weight=feat_weight,
+                ocr_loss_type=ocr_loss_type,
+                ocr_focal_gamma=ocr_focal_gamma,
                 ocr_warmup_epochs=ocr_warmup_epochs
             )
         )
@@ -159,7 +163,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
     def on_train_epoch_start(self):
         """Update loss annealing schedule each epoch."""
         self.criterion.set_epoch(self.current_epoch)
-        self.parseq.eval()  # Keep PARSeq frozen throughout
+        if isinstance(self.ocr_supervisor, nn.Module):
+            self.ocr_supervisor.eval()
 
     def training_step(self, batch: Dict[str, Any], batch_idx: int) -> torch.Tensor:
         inp  = batch["input"]
@@ -221,8 +226,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
 
         # ── Modular OCR decode ────────────────────────────────────────────
         # FastPlateOCR Validator is preferred for Sequence Accuracy validation
-        if self.val_ocr_validator is not None and self.val_ocr_validator.recognizer is not None:
-            labels = self.val_ocr_validator.decode_images(pred)
+        if self.val_ocr_validator is not None:
+            labels, _ = self.val_ocr_validator.decode_images(pred)
         else:
             # Fallback to the training OCR supervisor
             logits = self.ocr_supervisor(pred)
@@ -273,7 +278,7 @@ class JointOptimizationLightningModule(pl.LightningModule):
         lr = self.hparams.lr
         wd = self.hparams.weight_decay
         
-        # Train restoration + refinement; PARSeq is frozen
+        # Train restoration + refinement; OCR supervision stays frozen unless a backend changes that contract.
         trainable_params = list(self.restoration_model.parameters()) + \
                            list(self.refinement.parameters())
         optimizer = torch.optim.AdamW(trainable_params, lr=lr, weight_decay=wd)
@@ -299,7 +304,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
     def from_checkpoint(
         cls,
         model_name: str,
-        parseq: nn.Module,
+        ocr_supervisor: 'OCRSupervisor',
+        val_ocr_validator: 'OCRValidator',
         device_str: str = "cuda",
         experiments_dir: str = "outputs/experiments",
         **kwargs,
@@ -312,7 +318,8 @@ class JointOptimizationLightningModule(pl.LightningModule):
             logger.warning(f"No Phase 4 checkpoint found for {model_name}. Starting from scratch.")
         return cls(
             model_name=model_name,
-            parseq=parseq,
+            ocr_supervisor=ocr_supervisor,
+            val_ocr_validator=val_ocr_validator,
             device_str=device_str,
             pretrained_ckpt=str(ckpt) if ckpt else None,
             **kwargs,

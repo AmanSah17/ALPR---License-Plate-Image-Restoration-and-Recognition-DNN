@@ -27,10 +27,15 @@ restoration:
     enabled: false
 
 ocr:
-  backend: parseq
+  train_backend: parseq
+  eval_backend: fast_plate_ocr
+  loss_type: lcofl
+  focal_gamma: 2.0
   pretrained: true
   charset: alphanumeric
   max_length: 12
+  fast_plate_ocr:
+    model_name: global-plates-mobile-vit-v2-model
 
 hardware:
   device: auto  # auto | cuda | cpu

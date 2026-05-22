@@ -6,6 +6,7 @@ from tabulate import tabulate
 
 from datasets.rlpr_dataset import RLPRDataset
 from engine.inference_pipeline import ALPRPipeline
+from utils.checkpoint_utils import resolve_best_checkpoint
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,29 +23,13 @@ def compute_cer(pred: str, gt: str) -> float:
     return Levenshtein.distance(pred, gt) / len(gt)
 
 def find_best_checkpoint(model_name: str) -> Path:
-    experiments_dir = Path("outputs/experiments")
-    if not experiments_dir.exists():
-        raise FileNotFoundError(f"Could not find {experiments_dir}")
-        
-    candidates = list(experiments_dir.glob(f"*_train_{model_name}*"))
-    if not candidates:
-        raise ValueError(f"No experiment directory found for {model_name}")
-        
-    # Pick the latest directory
-    latest_dir = sorted(candidates)[-1]
-    checkpoints_dir = latest_dir / "checkpoints"
-    
-    ckpt_files = list(checkpoints_dir.glob("best-epoch*.ckpt"))
-    if not ckpt_files:
-        raise ValueError(f"No best-epoch checkpoint found in {checkpoints_dir}")
-        
-    # In case there are multiple, sort by epoch/PSNR (the last is usually the best due to naming)
-    return sorted(ckpt_files)[-1]
+    return resolve_best_checkpoint(model_name, prefer_metric="psnr")
 
 def main():
     parser = argparse.ArgumentParser(description="End-to-End ALPR Pipeline Inference")
     parser.add_argument("--model", type=str, default="unet_standard", help="Model family to run (e.g. swinir_base, unet_standard, spatiotemporal_hybrid_large)")
     parser.add_argument("--ckpt", type=str, default=None, help="Explicit path to checkpoint")
+    parser.add_argument("--ocr-backend", type=str, default="fast_plate_ocr", help="OCR backend to use at inference time")
     parser.add_argument("--num-samples", type=int, default=5, help="Number of samples to process from dataset")
     parser.add_argument("--dataset-path", type=str, default="Realistic License Plate Restoration and Recognition Dataset (RLPR)", help="Path to RLPR dataset")
     args = parser.parse_args()
@@ -59,7 +44,12 @@ def main():
         ckpt_path = find_best_checkpoint(args.model)
         
     # 2. Initialize pipeline
-    pipeline = ALPRPipeline(model_name=args.model, checkpoint_path=str(ckpt_path), device=device)
+    pipeline = ALPRPipeline(
+        model_name=args.model,
+        checkpoint_path=str(ckpt_path),
+        ocr_backend=args.ocr_backend,
+        device=device,
+    )
     
     # 3. Load Dataset
     logger.info(f"Loading dataset from {args.dataset_path}")
@@ -103,7 +93,7 @@ def main():
         torchvision.utils.save_image(sample["pseudo_gt_roi"], f"debug_{i}_gt.png")
         
         pred_text = out['text'][0]
-        conf = out['confidence'][0].mean().item()
+        conf = float(out['confidence'][0]) if out['confidence'] else 0.0
         
         cer = compute_cer(pred_text, ground_truth)
         

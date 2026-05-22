@@ -70,7 +70,7 @@ ALL_MODELS = [
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Phase 7: Joint Optimization (Restoration + PARSeq OCR)"
+        description="Phase 7: Joint Optimization (Restoration + Modular OCR Supervision)"
     )
     parser.add_argument(
         "--model", type=str, default="unet_lite",
@@ -92,9 +92,17 @@ def parse_args():
                         help="Learning rate for restoration model.")
     parser.add_argument("--pixel-weight", type=float, default=1.0)
     parser.add_argument("--ocr-weight",   type=float, default=0.1,
-                        help="Weight for PARSeq CrossEntropy loss.")
+                        help="Weight for OCR supervision loss.")
     parser.add_argument("--feat-weight",  type=float, default=0.05,
-                        help="Weight for PARSeq perceptual feature loss.")
+                        help="Weight for OCR perceptual feature loss.")
+    parser.add_argument("--train-ocr-backend", type=str, default="parseq",
+                        help="Differentiable OCR backend for training loss. Supported: parseq, none.")
+    parser.add_argument("--eval-ocr-backend", type=str, default="fast_plate_ocr",
+                        help="OCR backend for validation and deployment-style evaluation. Supported: fast_plate_ocr, parseq, none.")
+    parser.add_argument("--ocr-loss-type", type=str, default="lcofl", choices=["ce", "lcofl"],
+                        help="OCR loss formulation used when the training backend is differentiable.")
+    parser.add_argument("--ocr-focal-gamma", type=float, default=2.0,
+                        help="Focal gamma used by the LCOFL-style OCR loss.")
     parser.add_argument("--ocr-warmup",   type=int,   default=5,
                         help="Epochs before OCR loss reaches full weight.")
     parser.add_argument("--seed",         type=int,   default=42)
@@ -117,15 +125,23 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_ocr_supervisors(device: torch.device) -> Tuple['OCRSupervisor', 'FastPlateOCRValidator']:
-    """Load the modular OCR engine and validation OCR validator."""
-    logger.info("Loading OCR supervisors...")
-    from engine.ocr_supervisors import PARSeqSupervisor, FastPlateOCRValidator
-    
-    ocr_supervisor = PARSeqSupervisor(device)
-    val_ocr_validator = FastPlateOCRValidator(device)
-    
-    logger.info("OCR Supervisors loaded.")
+def load_ocr_supervisors(
+    device: torch.device,
+    train_backend: str,
+    eval_backend: str,
+) -> Tuple['OCRSupervisor', 'OCRValidator']:
+    """Load training and validation OCR backends."""
+    logger.info("Loading OCR backends (train=%s, eval=%s)...", train_backend, eval_backend)
+    from engine.ocr_supervisors import build_ocr_supervisor, build_ocr_validator
+
+    ocr_supervisor = build_ocr_supervisor(train_backend, device)
+    val_ocr_validator = build_ocr_validator(eval_backend, device, supervisor=ocr_supervisor)
+
+    logger.info(
+        "OCR backends ready. train=%s eval=%s",
+        getattr(ocr_supervisor, "backend_name", train_backend),
+        getattr(val_ocr_validator, "backend_name", eval_backend),
+    )
     return ocr_supervisor, val_ocr_validator
 
 
@@ -220,6 +236,8 @@ def run_joint_training(
         pixel_weight=args.pixel_weight,
         ocr_weight=args.ocr_weight,
         feat_weight=args.feat_weight,
+        ocr_loss_type=args.ocr_loss_type,
+        ocr_focal_gamma=args.ocr_focal_gamma,
         ocr_warmup_epochs=args.ocr_warmup,
     )
 
@@ -308,6 +326,7 @@ def main():
     logger.info(f"Seed   : {args.seed}")
     logger.info(f"Epochs : {'1 (SMOKE TEST)' if args.smoke_test else args.max_epochs}")
     logger.info(f"Loss   : pixel={args.pixel_weight}  ocr={args.ocr_weight}  feat={args.feat_weight}")
+    logger.info(f"OCR    : train={args.train_ocr_backend}  eval={args.eval_ocr_backend}  loss={args.ocr_loss_type}")
 
     # ── Load config ───────────────────────────────────────────────────────
     cfg = ConfigManager(".").loader.load(Path(args.config).name)
@@ -317,7 +336,18 @@ def main():
 
     # ── Load Modular OCR Supervisors ONCE (shared across all model runs) ────────────
     device = torch.device(args.device if torch.cuda.is_available() else "cpu")
-    ocr_supervisor, val_ocr_validator = load_ocr_supervisors(device)
+    ocr_supervisor, val_ocr_validator = load_ocr_supervisors(
+        device,
+        train_backend=args.train_ocr_backend,
+        eval_backend=args.eval_ocr_backend,
+    )
+    if not getattr(ocr_supervisor, "supports_training_loss", True) and args.ocr_weight > 0:
+        logger.warning(
+            "Training OCR backend '%s' does not support differentiable supervision. "
+            "OCR loss will be skipped even though --ocr-weight=%.3f.",
+            args.train_ocr_backend,
+            args.ocr_weight,
+        )
 
     # ── Determine models to run ────────────────────────────────────────────
     models = ALL_MODELS if args.multi_run else [args.model]

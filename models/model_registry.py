@@ -164,6 +164,9 @@ def count_parameters(model: nn.Module) -> int:
 
 def initialize_registry():
     """Initialize model registry with all variants."""
+    if ModelRegistry._registry:
+        return
+
     from models.restoration.swinir_unet import SwinIRUNetHybrid
     from models.restoration.unet_variants import UNetLite, UNetStandard, UNetDense
     from models.restoration.resnet_variants import RestorationResNetSmall, RestorationResNetMedium

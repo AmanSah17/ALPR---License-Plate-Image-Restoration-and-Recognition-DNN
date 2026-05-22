@@ -4002,3 +4002,272 @@ bottleneck.0.swin.attn.out_proj, bottleneck.1.swin.attn.out_proj, decoder_blocks
 2026-05-23 04:19:33,234 - engine.joint_lightning - INFO - Epoch 11 | PSNR=8.21 | CER=1.154 | SeqAcc=0.0%
 2026-05-23 04:20:34,038 - engine.joint_lightning - INFO - Epoch 12 | PSNR=8.25 | CER=1.212 | SeqAcc=0.0%
 2026-05-23 04:21:48,339 - engine.joint_lightning - INFO - Epoch 13 | PSNR=8.22 | CER=1.193 | SeqAcc=0.0%
+2026-05-23 04:22:48,160 - engine.joint_lightning - INFO - Epoch 14 | PSNR=8.21 | CER=1.218 | SeqAcc=0.0%
+2026-05-23 04:23:49,407 - engine.joint_lightning - INFO - Epoch 15 | PSNR=8.42 | CER=1.155 | SeqAcc=0.0%
+2026-05-23 04:25:43,283 - engine.joint_lightning - INFO - Epoch 16 | PSNR=8.55 | CER=1.061 | SeqAcc=0.0%
+2026-05-23 04:27:00,869 - engine.joint_lightning - INFO - Epoch 17 | PSNR=8.73 | CER=1.283 | SeqAcc=0.0%
+2026-05-23 04:28:00,106 - engine.joint_lightning - INFO - Epoch 18 | PSNR=8.67 | CER=1.193 | SeqAcc=0.0%
+2026-05-23 04:28:59,837 - engine.joint_lightning - INFO - Epoch 19 | PSNR=8.65 | CER=1.229 | SeqAcc=0.0%
+2026-05-23 04:29:58,937 - engine.joint_lightning - INFO - Epoch 20 | PSNR=8.63 | CER=1.177 | SeqAcc=0.0%
+2026-05-23 04:29:59,694 - __main__ - INFO - [SUCCESS] Done [swinir_large] | Best CER ckpt: D:\ALPR_Research\outputs\experiments\20260523_040108_joint_p7_swinir_large\checkpoints\best_cer-epoch=10-val_cer=1.031.ckpt
+2026-05-23 04:29:59,941 - __main__ - INFO - 
+======================================================================
+2026-05-23 04:29:59,941 - __main__ - INFO - JOINT OPTIMIZATION SUMMARY
+2026-05-23 04:29:59,941 - __main__ - INFO - ======================================================================
+2026-05-23 04:29:59,941 - __main__ - INFO -   [OK] swinir_large: epoch=21
+2026-05-23 04:29:59,942 - __main__ - INFO -       Best CER  ckpt: best_cer-epoch=10-val_cer=1.031.ckpt
+2026-05-23 04:29:59,942 - __main__ - INFO -       Best PSNR ckpt: best_psnr-epoch=17-val_psnr=8.732.ckpt
+2026-05-23 04:29:59,942 - __main__ - INFO - ======================================================================
+2026-05-23 04:39:03,844 - __main__ - INFO - ======================================================================
+2026-05-23 04:39:03,844 - __main__ - INFO - Phase 7: Joint Optimization Training
+2026-05-23 04:39:03,844 - __main__ - INFO - ======================================================================
+2026-05-23 04:39:03,845 - __main__ - INFO - Device : cuda
+2026-05-23 04:39:03,845 - __main__ - INFO - Seed   : 42
+2026-05-23 04:39:03,845 - __main__ - INFO - Epochs : 30
+2026-05-23 04:39:03,845 - __main__ - INFO - Loss   : pixel=1.0  ocr=0.1  feat=0.05
+2026-05-23 04:39:03,845 - __main__ - INFO - OCR    : train=parseq  eval=fast_plate_ocr  loss=lcofl
+2026-05-23 04:39:04,645 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:39:04,645 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 16 time(s)
+2026-05-23 04:39:04,646 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 4 time(s)
+2026-05-23 04:39:04,646 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 4 time(s)
+2026-05-23 04:39:04,646 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 16 time(s)
+2026-05-23 04:39:04,646 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 4 time(s)
+2026-05-23 04:39:04,646 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 26 time(s)
+2026-05-23 04:39:04,647 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 8 time(s)
+2026-05-23 04:39:04,647 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, ocr_hook
+2026-05-23 04:39:04,652 - models.model_registry - INFO - [OK] Registered model: swinir_small (138.1K params)
+2026-05-23 04:39:05,431 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 5 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 5 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 20 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 5 time(s)
+2026-05-23 04:39:05,432 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 31 time(s)
+2026-05-23 04:39:05,433 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 10 time(s)
+2026-05-23 04:39:05,433 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 04:39:05,438 - models.model_registry - INFO - [OK] Registered model: swinir_base (326.6K params)
+2026-05-23 04:39:06,575 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:39:06,576 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 18 time(s)
+2026-05-23 04:39:06,576 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 6 time(s)
+2026-05-23 04:39:06,576 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 6 time(s)
+2026-05-23 04:39:06,576 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 24 time(s)
+2026-05-23 04:39:06,577 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 6 time(s)
+2026-05-23 04:39:06,577 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 36 time(s)
+2026-05-23 04:39:06,577 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 12 time(s)
+2026-05-23 04:39:06,577 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc1.2.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 04:39:06,582 - models.model_registry - INFO - [OK] Registered model: swinir_large (611.3K params)
+2026-05-23 04:39:06,848 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 19 time(s)
+2026-05-23 04:39:06,849 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 3 time(s)
+2026-05-23 04:39:06,849 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 2 time(s)
+2026-05-23 04:39:06,849 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 04:39:06,851 - models.model_registry - INFO - [OK] Registered model: unet_lite (944.3K params)
+2026-05-23 04:39:07,465 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 28 time(s)
+2026-05-23 04:39:07,465 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 4 time(s)
+2026-05-23 04:39:07,465 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 3 time(s)
+2026-05-23 04:39:07,465 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 04:39:07,467 - models.model_registry - INFO - [OK] Registered model: unet_standard (8782.4K params)
+2026-05-23 04:39:07,708 - models.model_registry - INFO - [OK] Registered model: unet_dense (17194.2K params)
+2026-05-23 04:39:07,933 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 04:39:07,933 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 9 time(s)
+2026-05-23 04:39:07,935 - models.model_registry - INFO - [OK] Registered model: resnet_small (224.2K params)
+2026-05-23 04:39:08,229 - models.model_registry - INFO - [OK] Registered model: resnet_medium (2353.5K params)
+2026-05-23 04:39:11,115 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 35 time(s)
+2026-05-23 04:39:11,115 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 72 time(s)
+2026-05-23 04:39:11,116 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 10 time(s)
+2026-05-23 04:39:11,116 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 10 time(s)
+2026-05-23 04:39:11,116 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 60 time(s)
+2026-05-23 04:39:11,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 10 time(s)
+2026-05-23 04:39:11,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 20 time(s)
+2026-05-23 04:39:11,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 20 time(s)
+2026-05-23 04:39:11,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mean encountered 10 time(s)
+2026-05-23 04:39:11,117 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+bottleneck.0.swin.attn.out_proj, bottleneck.1.swin.attn.out_proj, decoder_blocks.0.swin.attn.out_proj, decoder_blocks.1.swin.attn.out_proj, decoder_blocks.2.swin.attn.out_proj, decoder_blocks.3.swin.attn.out_proj, encoder_blocks.0.swin.attn.out_proj, encoder_blocks.1.swin.attn.out_proj, encoder_blocks.2.swin.attn.out_proj, encoder_blocks.3.swin.attn.out_proj
+2026-05-23 04:39:11,123 - models.model_registry - INFO - [OK] Registered model: hybrid_attention (1583.0K params)
+2026-05-23 04:39:11,155 - models.model_registry - INFO - [OK] Registered model: spatiotemporal_hybrid_base (1589.1K params)
+2026-05-23 04:39:11,174 - models.model_registry - INFO - [OK] Registered model: spatiotemporal_hybrid_small (361.9K params)
+2026-05-23 04:39:11,182 - __main__ - INFO - Loading OCR backends (train=parseq, eval=fast_plate_ocr)...
+2026-05-23 04:39:14,073 - fast_plate_ocr.inference.plate_recognizer - INFO - Using device 'cuda' with providers: ['CUDAExecutionProvider']
+2026-05-23 04:39:14,074 - root - INFO - Skipping download of 'global-plates-mobile-vit-v2-model' model, already exists at C:\Users\amans\.cache\fast-plate-ocr\global-plates-mobile-vit-v2-model
+2026-05-23 04:39:14,421 - __main__ - INFO - OCR backends ready. train=parseq eval=fast_plate_ocr
+2026-05-23 04:39:14,422 - __main__ - INFO - Models to train: ['swinir_base']
+2026-05-23 04:39:14,631 - __main__ - INFO - GPU memory before swinir_base: 0.10 GB allocated
+2026-05-23 04:39:14,631 - __main__ - INFO - ======================================================================
+2026-05-23 04:39:14,632 - __main__ - INFO - Joint Optimization: swinir_base
+2026-05-23 04:39:14,632 - __main__ - INFO - ======================================================================
+2026-05-23 04:39:14,721 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 04:39:14,735 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 04:39:14,774 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=90.9 MB reserved=110.0 MB peak=90.9 MB
+2026-05-23 04:39:14,785 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_043914_joint_p7_swinir_base\configs\config_snapshot.yaml
+2026-05-23 04:39:15,800 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=0c1a5667cb844edd8bf86dbd32c4181a name=20260523_043914_joint_p7_swinir_base
+2026-05-23 04:39:16,171 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_043914_joint_p7_swinir_base\logs\tensorboard
+2026-05-23 04:39:16,172 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_043914_joint_p7_swinir_base
+2026-05-23 04:39:16,191 - models.model_registry - INFO - Built model: swinir_base
+2026-05-23 04:39:16,194 - engine.joint_lightning - INFO - JointOptimizationLightningModule initialized: swinir_base
+2026-05-23 04:39:16,195 - engine.joint_lightning - INFO -   Restoration params: 0.33M
+2026-05-23 04:39:16,477 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 04:39:16,485 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 04:39:16,740 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 04:39:16,747 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 04:39:16,747 - __main__ - INFO - Dataset: 160 train / 40 val samples
+2026-05-23 04:39:16,811 - __main__ - INFO - Starting joint training [swinir_base]...
+2026-05-23 04:39:19,019 - engine.joint_lightning - INFO - Epoch 0 | PSNR=6.92 | CER=0.845 | SeqAcc=0.0%
+2026-05-23 04:42:36,624 - engine.joint_lightning - INFO - Epoch 0 | PSNR=7.89 | CER=0.921 | SeqAcc=0.0%
+2026-05-23 04:43:25,106 - engine.joint_lightning - INFO - Epoch 1 | PSNR=8.46 | CER=0.908 | SeqAcc=0.0%
+2026-05-23 04:44:18,813 - engine.joint_lightning - INFO - Epoch 2 | PSNR=8.47 | CER=0.924 | SeqAcc=0.0%
+2026-05-23 04:44:48,664 - __main__ - INFO - ======================================================================
+2026-05-23 04:44:48,664 - __main__ - INFO - Phase 7: Joint Optimization Training
+2026-05-23 04:44:48,665 - __main__ - INFO - ======================================================================
+2026-05-23 04:44:48,665 - __main__ - INFO - Device : cuda
+2026-05-23 04:44:48,665 - __main__ - INFO - Seed   : 42
+2026-05-23 04:44:48,665 - __main__ - INFO - Epochs : 30
+2026-05-23 04:44:48,666 - __main__ - INFO - Loss   : pixel=1.0  ocr=0.1  feat=0.05
+2026-05-23 04:44:48,666 - __main__ - INFO - OCR    : train=none  eval=fast_plate_ocr  loss=lcofl
+2026-05-23 04:44:49,791 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:44:49,792 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 16 time(s)
+2026-05-23 04:44:49,792 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 4 time(s)
+2026-05-23 04:44:49,792 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 4 time(s)
+2026-05-23 04:44:49,793 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 16 time(s)
+2026-05-23 04:44:49,793 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 4 time(s)
+2026-05-23 04:44:49,793 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 26 time(s)
+2026-05-23 04:44:49,793 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 8 time(s)
+2026-05-23 04:44:49,794 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, ocr_hook
+2026-05-23 04:44:49,801 - models.model_registry - INFO - [OK] Registered model: swinir_small (138.1K params)
+2026-05-23 04:44:50,722 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:44:50,723 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 04:44:50,723 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 5 time(s)
+2026-05-23 04:44:50,723 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 5 time(s)
+2026-05-23 04:44:50,723 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 20 time(s)
+2026-05-23 04:44:50,724 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 5 time(s)
+2026-05-23 04:44:50,724 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 31 time(s)
+2026-05-23 04:44:50,724 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 10 time(s)
+2026-05-23 04:44:50,724 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 04:44:50,732 - models.model_registry - INFO - [OK] Registered model: swinir_base (326.6K params)
+2026-05-23 04:44:51,979 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 04:44:51,980 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 18 time(s)
+2026-05-23 04:44:51,980 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 6 time(s)
+2026-05-23 04:44:51,980 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 6 time(s)
+2026-05-23 04:44:51,981 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 24 time(s)
+2026-05-23 04:44:51,981 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 6 time(s)
+2026-05-23 04:44:51,981 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 36 time(s)
+2026-05-23 04:44:51,981 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 12 time(s)
+2026-05-23 04:44:51,982 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc1.2.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 04:44:51,989 - models.model_registry - INFO - [OK] Registered model: swinir_large (611.3K params)
+2026-05-23 04:44:52,459 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 19 time(s)
+2026-05-23 04:44:52,459 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 3 time(s)
+2026-05-23 04:44:52,459 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 2 time(s)
+2026-05-23 04:44:52,460 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 04:44:52,464 - models.model_registry - INFO - [OK] Registered model: unet_lite (944.3K params)
+2026-05-23 04:44:53,484 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 28 time(s)
+2026-05-23 04:44:53,484 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 4 time(s)
+2026-05-23 04:44:53,484 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 3 time(s)
+2026-05-23 04:44:53,485 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 04:44:53,488 - models.model_registry - INFO - [OK] Registered model: unet_standard (8782.4K params)
+2026-05-23 04:44:53,861 - models.model_registry - INFO - [OK] Registered model: unet_dense (17194.2K params)
+2026-05-23 04:44:54,248 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 04:44:54,249 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 9 time(s)
+2026-05-23 04:44:54,254 - models.model_registry - INFO - [OK] Registered model: resnet_small (224.2K params)
+2026-05-23 04:44:54,729 - models.model_registry - INFO - [OK] Registered model: resnet_medium (2353.5K params)
+2026-05-23 04:45:00,078 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 35 time(s)
+2026-05-23 04:45:00,078 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 72 time(s)
+2026-05-23 04:45:00,079 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 10 time(s)
+2026-05-23 04:45:00,079 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 10 time(s)
+2026-05-23 04:45:00,079 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 60 time(s)
+2026-05-23 04:45:00,080 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 10 time(s)
+2026-05-23 04:45:00,080 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 20 time(s)
+2026-05-23 04:45:00,080 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 20 time(s)
+2026-05-23 04:45:00,080 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mean encountered 10 time(s)
+2026-05-23 04:45:00,081 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+bottleneck.0.swin.attn.out_proj, bottleneck.1.swin.attn.out_proj, decoder_blocks.0.swin.attn.out_proj, decoder_blocks.1.swin.attn.out_proj, decoder_blocks.2.swin.attn.out_proj, decoder_blocks.3.swin.attn.out_proj, encoder_blocks.0.swin.attn.out_proj, encoder_blocks.1.swin.attn.out_proj, encoder_blocks.2.swin.attn.out_proj, encoder_blocks.3.swin.attn.out_proj
+2026-05-23 04:45:00,095 - models.model_registry - INFO - [OK] Registered model: hybrid_attention (1583.0K params)
+2026-05-23 04:45:00,149 - models.model_registry - INFO - [OK] Registered model: spatiotemporal_hybrid_base (1589.1K params)
+2026-05-23 04:45:00,185 - models.model_registry - INFO - [OK] Registered model: spatiotemporal_hybrid_small (361.9K params)
+2026-05-23 04:45:00,194 - __main__ - INFO - Loading OCR backends (train=none, eval=fast_plate_ocr)...
+2026-05-23 04:45:00,383 - fast_plate_ocr.inference.plate_recognizer - INFO - Using device 'cuda' with providers: ['CUDAExecutionProvider']
+2026-05-23 04:45:00,385 - root - INFO - Skipping download of 'global-plates-mobile-vit-v2-model' model, already exists at C:\Users\amans\.cache\fast-plate-ocr\global-plates-mobile-vit-v2-model
+2026-05-23 04:45:01,086 - __main__ - INFO - OCR backends ready. train=none eval=fast_plate_ocr
+2026-05-23 04:45:01,086 - __main__ - WARNING - Training OCR backend 'none' does not support differentiable supervision. OCR loss will be skipped even though --ocr-weight=0.100.
+2026-05-23 04:45:01,087 - __main__ - INFO - Models to train: ['swinir_large']
+2026-05-23 04:45:01,378 - __main__ - INFO - GPU memory before swinir_large: 0.00 GB allocated
+2026-05-23 04:45:01,378 - __main__ - INFO - ======================================================================
+2026-05-23 04:45:01,378 - __main__ - INFO - Joint Optimization: swinir_large
+2026-05-23 04:45:01,379 - __main__ - INFO - ======================================================================
+2026-05-23 04:45:01,409 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 04:45:01,435 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 04:45:01,536 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 04:45:01,552 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_044501_joint_p7_swinir_large\configs\config_snapshot.yaml
+2026-05-23 04:45:02,997 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=44f23da27a214430b4603f5d4c0d2342 name=20260523_044501_joint_p7_swinir_large
+2026-05-23 04:45:03,575 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_044501_joint_p7_swinir_large\logs\tensorboard
+2026-05-23 04:45:03,577 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_044501_joint_p7_swinir_large
+2026-05-23 04:45:03,602 - models.model_registry - INFO - Built model: swinir_large
+2026-05-23 04:45:03,605 - engine.joint_lightning - INFO - JointOptimizationLightningModule initialized: swinir_large
+2026-05-23 04:45:03,605 - engine.joint_lightning - INFO -   Restoration params: 0.61M
+2026-05-23 04:45:03,965 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 04:45:03,976 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 04:45:04,353 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 04:45:04,361 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 04:45:04,362 - __main__ - INFO - Dataset: 160 train / 40 val samples
+2026-05-23 04:45:04,462 - __main__ - INFO - Starting joint training [swinir_large]...
+2026-05-23 04:45:07,639 - engine.joint_lightning - INFO - Epoch 0 | PSNR=7.21 | CER=1.000 | SeqAcc=0.0%
+2026-05-23 04:45:20,633 - engine.joint_lightning - INFO - Epoch 3 | PSNR=8.46 | CER=0.909 | SeqAcc=0.0%
+2026-05-23 04:46:25,284 - engine.joint_lightning - INFO - Epoch 4 | PSNR=8.75 | CER=0.904 | SeqAcc=0.0%
+2026-05-23 04:47:28,256 - engine.joint_lightning - INFO - Epoch 5 | PSNR=8.78 | CER=0.914 | SeqAcc=0.0%
+2026-05-23 04:48:31,591 - engine.joint_lightning - INFO - Epoch 6 | PSNR=9.12 | CER=0.927 | SeqAcc=0.0%
+2026-05-23 04:49:33,260 - engine.joint_lightning - INFO - Epoch 7 | PSNR=9.17 | CER=0.905 | SeqAcc=0.0%
+2026-05-23 04:50:20,049 - engine.joint_lightning - INFO - Epoch 0 | PSNR=9.48 | CER=0.915 | SeqAcc=0.0%
+2026-05-23 04:50:48,377 - engine.joint_lightning - INFO - Epoch 8 | PSNR=9.60 | CER=0.940 | SeqAcc=0.0%
+2026-05-23 04:51:50,338 - engine.joint_lightning - INFO - Epoch 1 | PSNR=9.69 | CER=0.920 | SeqAcc=0.0%
+2026-05-23 04:52:18,538 - engine.joint_lightning - INFO - Epoch 9 | PSNR=9.66 | CER=0.890 | SeqAcc=0.0%
+2026-05-23 04:53:19,937 - engine.joint_lightning - INFO - Epoch 2 | PSNR=9.87 | CER=0.914 | SeqAcc=0.0%
+2026-05-23 04:53:53,042 - engine.joint_lightning - INFO - Epoch 10 | PSNR=9.27 | CER=0.911 | SeqAcc=0.0%
+2026-05-23 04:54:51,909 - engine.joint_lightning - INFO - Epoch 3 | PSNR=10.51 | CER=0.911 | SeqAcc=0.0%
+2026-05-23 04:55:24,892 - engine.joint_lightning - INFO - Epoch 11 | PSNR=10.06 | CER=0.947 | SeqAcc=0.0%
+2026-05-23 04:56:23,288 - engine.joint_lightning - INFO - Epoch 4 | PSNR=10.46 | CER=0.939 | SeqAcc=0.0%
+2026-05-23 04:57:08,138 - engine.joint_lightning - INFO - Epoch 12 | PSNR=9.77 | CER=0.921 | SeqAcc=0.0%
+2026-05-23 04:57:53,915 - engine.joint_lightning - INFO - Epoch 5 | PSNR=10.41 | CER=0.923 | SeqAcc=0.0%
+2026-05-23 04:58:48,053 - engine.joint_lightning - INFO - Epoch 13 | PSNR=9.92 | CER=0.942 | SeqAcc=0.0%
+2026-05-23 04:59:23,329 - engine.joint_lightning - INFO - Epoch 6 | PSNR=10.76 | CER=0.928 | SeqAcc=0.0%
+2026-05-23 05:00:22,619 - engine.joint_lightning - INFO - Epoch 14 | PSNR=9.61 | CER=0.926 | SeqAcc=0.0%
+2026-05-23 05:00:55,739 - engine.joint_lightning - INFO - Epoch 7 | PSNR=11.04 | CER=0.934 | SeqAcc=0.0%
+2026-05-23 05:01:55,853 - engine.joint_lightning - INFO - Epoch 15 | PSNR=8.85 | CER=0.907 | SeqAcc=0.0%
+2026-05-23 05:02:27,837 - engine.joint_lightning - INFO - Epoch 8 | PSNR=11.12 | CER=0.939 | SeqAcc=0.0%
+2026-05-23 05:03:36,220 - engine.joint_lightning - INFO - Epoch 16 | PSNR=10.01 | CER=0.948 | SeqAcc=0.0%
+2026-05-23 05:03:59,735 - engine.joint_lightning - INFO - Epoch 9 | PSNR=11.11 | CER=0.927 | SeqAcc=0.0%
+2026-05-23 05:05:33,144 - engine.joint_lightning - INFO - Epoch 17 | PSNR=10.07 | CER=0.910 | SeqAcc=0.0%
+2026-05-23 05:05:34,428 - engine.joint_lightning - INFO - Epoch 10 | PSNR=11.29 | CER=0.943 | SeqAcc=0.0%
+2026-05-23 05:07:07,855 - engine.joint_lightning - INFO - Epoch 11 | PSNR=11.15 | CER=0.899 | SeqAcc=0.0%
+2026-05-23 05:07:20,895 - engine.joint_lightning - INFO - Epoch 18 | PSNR=9.72 | CER=0.920 | SeqAcc=0.0%
+2026-05-23 05:08:40,126 - engine.joint_lightning - INFO - Epoch 12 | PSNR=11.46 | CER=0.968 | SeqAcc=0.0%
+2026-05-23 05:09:11,256 - engine.joint_lightning - INFO - Epoch 19 | PSNR=10.04 | CER=0.933 | SeqAcc=0.0%
+2026-05-23 05:09:11,770 - __main__ - INFO - [SUCCESS] Done [swinir_base] | Best CER ckpt: D:\ALPR_Research\outputs\experiments\20260523_043914_joint_p7_swinir_base\checkpoints\best_cer-epoch=09-val_cer=0.890.ckpt
+2026-05-23 05:09:12,131 - __main__ - INFO - 
+======================================================================
+2026-05-23 05:09:12,131 - __main__ - INFO - JOINT OPTIMIZATION SUMMARY
+2026-05-23 05:09:12,131 - __main__ - INFO - ======================================================================
+2026-05-23 05:09:12,132 - __main__ - INFO -   [OK] swinir_base: epoch=20
+2026-05-23 05:09:12,132 - __main__ - INFO -       Best CER  ckpt: best_cer-epoch=09-val_cer=0.890.ckpt
+2026-05-23 05:09:12,132 - __main__ - INFO -       Best PSNR ckpt: best_psnr-epoch=17-val_psnr=10.068.ckpt
+2026-05-23 05:09:12,133 - __main__ - INFO - ======================================================================
+2026-05-23 05:09:45,728 - engine.joint_lightning - INFO - Epoch 13 | PSNR=11.33 | CER=0.924 | SeqAcc=0.0%
+2026-05-23 05:10:33,739 - engine.joint_lightning - INFO - Epoch 14 | PSNR=11.47 | CER=0.948 | SeqAcc=0.0%
+2026-05-23 05:11:18,162 - engine.joint_lightning - INFO - Epoch 15 | PSNR=11.51 | CER=0.945 | SeqAcc=0.0%
+2026-05-23 05:12:07,477 - engine.joint_lightning - INFO - Epoch 16 | PSNR=11.34 | CER=0.920 | SeqAcc=0.0%
+2026-05-23 05:12:51,629 - engine.joint_lightning - INFO - Epoch 17 | PSNR=11.64 | CER=0.910 | SeqAcc=0.0%
+2026-05-23 05:13:36,100 - engine.joint_lightning - INFO - Epoch 18 | PSNR=11.71 | CER=0.936 | SeqAcc=0.0%
+2026-05-23 05:14:19,882 - engine.joint_lightning - INFO - Epoch 19 | PSNR=11.71 | CER=0.960 | SeqAcc=0.0%
+2026-05-23 05:15:03,627 - engine.joint_lightning - INFO - Epoch 20 | PSNR=11.64 | CER=0.935 | SeqAcc=0.0%
+2026-05-23 05:15:47,826 - engine.joint_lightning - INFO - Epoch 21 | PSNR=11.73 | CER=0.927 | SeqAcc=0.0%
+2026-05-23 05:15:48,164 - __main__ - INFO - [SUCCESS] Done [swinir_large] | Best CER ckpt: D:\ALPR_Research\outputs\experiments\20260523_044501_joint_p7_swinir_large\checkpoints\best_cer-epoch=11-val_cer=0.899.ckpt
+2026-05-23 05:15:48,419 - __main__ - INFO - 
+======================================================================
+2026-05-23 05:15:48,419 - __main__ - INFO - JOINT OPTIMIZATION SUMMARY
+2026-05-23 05:15:48,420 - __main__ - INFO - ======================================================================
+2026-05-23 05:15:48,420 - __main__ - INFO -   [OK] swinir_large: epoch=22
+2026-05-23 05:15:48,421 - __main__ - INFO -       Best CER  ckpt: best_cer-epoch=11-val_cer=0.899.ckpt
+2026-05-23 05:15:48,421 - __main__ - INFO -       Best PSNR ckpt: best_psnr-epoch=21-val_psnr=11.727.ckpt
+2026-05-23 05:15:48,421 - __main__ - INFO - ======================================================================
