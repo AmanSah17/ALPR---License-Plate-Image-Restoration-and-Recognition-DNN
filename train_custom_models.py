@@ -68,7 +68,7 @@ def parse_arguments():
         "--param-scale",
         type=str,
         default="small",
-        choices=["small", "base", "large", "medium"],
+        choices=["small", "base", "large", "medium", "spatiotemporal_small", "spatiotemporal_base"],
         help="Parameter scale (size) of the model",
     )
 
@@ -148,6 +148,8 @@ def parse_arguments():
 def build_model_name(family: str, scale: str) -> str:
     """Build model name from family and scale."""
     if family == "hybrid":
+        if scale.startswith("spatiotemporal"):
+            return f"spatiotemporal_hybrid_{scale.split('_')[-1]}"
         return "hybrid_attention"
     if family == "unet":
         if scale == "small" or scale == "lite":
@@ -236,6 +238,24 @@ def train_model_variant(
                 cfg["trainer"] = {"max_epochs": max_epochs}
         except Exception as e:
             logger.warning(f"Could not set max_epochs on config object: {e}")
+
+    # Auto-switch to sequence mode for spatiotemporal models
+    if model_name.startswith("spatiotemporal_hybrid"):
+        logger.info("Spatiotemporal model detected: automatically switching input_mode to 'sequence'.")
+        if isinstance(cfg, DictConfig):
+            OmegaConf.set_struct(cfg, False)
+            if "training" not in cfg:
+                cfg.training = {}
+            cfg.training.input_mode = "sequence"
+        elif isinstance(cfg, dict):
+            if "training" not in cfg:
+                cfg["training"] = {}
+            cfg["training"]["input_mode"] = "sequence"
+        else:
+            try:
+                cfg.training.input_mode = "sequence"
+            except:
+                pass
 
     try:
         # Build model from registry

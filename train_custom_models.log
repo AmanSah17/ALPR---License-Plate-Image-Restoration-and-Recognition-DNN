@@ -913,3 +913,810 @@ unet_standard                  base       8.78M           N/A
 ================================================================================
 2026-05-23 01:27:18,455 - __main__ - INFO - Training completed successfully!
 2026-05-23 01:27:18,456 - __main__ - INFO - ================================================================================
+2026-05-23 01:35:33,877 - __main__ - INFO - Exporting training metrics...
+2026-05-23 01:35:33,880 - __main__ - INFO - Exported metrics: {'csv': None, 'json': WindowsPath('outputs/metrics/epoch_050_summary.json'), 'html': WindowsPath('outputs/metrics/epoch_050_report.html')}
+2026-05-23 01:35:33,883 - __main__ - INFO -   Best checkpoint: D:\ALPR_Research\outputs\experiments\20260523_011846_train_unet_lite\checkpoints\best-epoch=42-val_psnr=14.819.ckpt
+2026-05-23 01:35:33,883 - __main__ - INFO -   Experiment dir: D:\ALPR_Research\outputs\experiments\20260523_011846_train_unet_lite
+2026-05-23 01:35:33,900 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:35:33,901 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:35:33,901 - __main__ - INFO - ================================================================================
+2026-05-23 01:35:33,901 - __main__ - INFO - 
+Model: unet_lite
+2026-05-23 01:35:33,901 - __main__ - INFO -   Params: 944.3K
+2026-05-23 01:35:33,902 - __main__ - INFO -   Best checkpoint: best-epoch=42-val_psnr=14.819.ckpt
+2026-05-23 01:35:33,902 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:35:33,903 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:35:33,903 - __main__ - INFO - ================================================================================
+2026-05-23 01:43:31,917 - __main__ - INFO - Exporting training metrics...
+2026-05-23 01:43:31,919 - __main__ - INFO - Exported metrics: {'csv': None, 'json': WindowsPath('outputs/metrics/epoch_050_summary.json'), 'html': WindowsPath('outputs/metrics/epoch_050_report.html')}
+2026-05-23 01:43:31,921 - __main__ - INFO -   Best checkpoint: D:\ALPR_Research\outputs\experiments\20260523_012304_train_unet_standard\checkpoints\best-epoch=42-val_psnr=14.935.ckpt
+2026-05-23 01:43:31,921 - __main__ - INFO -   Experiment dir: D:\ALPR_Research\outputs\experiments\20260523_012304_train_unet_standard
+2026-05-23 01:43:31,935 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:43:31,936 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:43:31,936 - __main__ - INFO - ================================================================================
+2026-05-23 01:43:31,936 - __main__ - INFO - 
+Model: unet_standard
+2026-05-23 01:43:31,936 - __main__ - INFO -   Params: 8782.4K
+2026-05-23 01:43:31,937 - __main__ - INFO -   Best checkpoint: best-epoch=42-val_psnr=14.935.ckpt
+2026-05-23 01:43:31,937 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:43:31,937 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:43:31,937 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:05,098 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:05,098 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 01:47:05,098 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:05,098 - __main__ - INFO - Device: cuda
+2026-05-23 01:47:05,098 - __main__ - INFO - Seed: 42
+2026-05-23 01:47:05,098 - __main__ - INFO - Initializing model registry...
+2026-05-23 01:47:05,427 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 01:47:05,497 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+spatiotemporal_hybrid_base     base       1.79M           N/A            
+spatiotemporal_hybrid_small    small      403.3K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 01:47:05,498 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:47:05,498 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_small
+2026-05-23 01:47:05,498 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:05,503 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:47:05,520 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:47:05,566 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 01:47:05,577 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_014705_train_spatiotemporal_hybrid_small\configs\config_snapshot.yaml
+2026-05-23 01:47:06,866 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=713befbe0dad47338824136f2f1927d4 name=20260523_014705_train_spatiotemporal_hybrid_small
+2026-05-23 01:47:07,262 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_014705_train_spatiotemporal_hybrid_small\logs\tensorboard
+2026-05-23 01:47:07,265 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_014705_train_spatiotemporal_hybrid_small
+2026-05-23 01:47:07,269 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 01:47:07,270 - __main__ - INFO - Building model: spatiotemporal_hybrid_small
+2026-05-23 01:47:07,283 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_small
+2026-05-23 01:47:07,285 - __main__ - INFO - Model complexity: Params: 403.3K
+2026-05-23 01:47:07,327 - engine.composite_lightning - INFO - Model complexity: Params: 403.3K
+2026-05-23 01:47:07,327 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 01:47:07,623 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:47:07,630 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:47:07,866 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:47:07,874 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:47:07,875 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 01:47:07,941 - __main__ - INFO - Starting training...
+2026-05-23 01:47:08,905 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_small: Shape mismatch: torch.Size([1, 15, 28, 104]) vs torch.Size([1, 3, 28, 104])
+2026-05-23 01:47:08,913 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:47:08,913 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:47:08,913 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:08,913 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:47:08,913 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:47:08,913 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:53,026 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:53,026 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 01:47:53,026 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:53,026 - __main__ - INFO - Device: cuda
+2026-05-23 01:47:53,026 - __main__ - INFO - Seed: 42
+2026-05-23 01:47:53,026 - __main__ - INFO - Initializing model registry...
+2026-05-23 01:47:53,313 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 01:47:53,382 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+spatiotemporal_hybrid_base     base       1.79M           N/A            
+spatiotemporal_hybrid_small    small      403.3K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 01:47:53,382 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:47:53,382 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_small
+2026-05-23 01:47:53,382 - __main__ - INFO - ================================================================================
+2026-05-23 01:47:53,387 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:47:53,427 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:47:53,469 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 01:47:53,480 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_014753_train_spatiotemporal_hybrid_small\configs\config_snapshot.yaml
+2026-05-23 01:47:54,811 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=e1064f647d404a95833d4e8271701ecd name=20260523_014753_train_spatiotemporal_hybrid_small
+2026-05-23 01:47:55,194 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_014753_train_spatiotemporal_hybrid_small\logs\tensorboard
+2026-05-23 01:47:55,196 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_014753_train_spatiotemporal_hybrid_small
+2026-05-23 01:47:55,201 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 01:47:55,201 - __main__ - INFO - Building model: spatiotemporal_hybrid_small
+2026-05-23 01:47:55,215 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_small
+2026-05-23 01:47:55,216 - __main__ - INFO - Model complexity: Params: 403.3K
+2026-05-23 01:47:55,263 - engine.composite_lightning - INFO - Model complexity: Params: 403.3K
+2026-05-23 01:47:55,263 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 01:47:55,544 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:47:55,551 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:47:55,833 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:47:55,842 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:47:55,842 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 01:47:55,901 - __main__ - INFO - Starting training...
+2026-05-23 01:49:35,039 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_small: CUDA out of memory. Tried to allocate 2.17 GiB. GPU 0 has a total capacity of 4.00 GiB of which 0 bytes is free. Of the allocated memory 13.40 GiB is allocated by PyTorch, and 29.14 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+2026-05-23 01:49:35,187 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:49:35,187 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:49:35,188 - __main__ - INFO - ================================================================================
+2026-05-23 01:49:35,188 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:49:35,188 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:49:35,188 - __main__ - INFO - ================================================================================
+2026-05-23 01:51:06,680 - __main__ - INFO - ================================================================================
+2026-05-23 01:51:06,681 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 01:51:06,681 - __main__ - INFO - ================================================================================
+2026-05-23 01:51:06,681 - __main__ - INFO - Device: cuda
+2026-05-23 01:51:06,682 - __main__ - INFO - Seed: 42
+2026-05-23 01:51:06,682 - __main__ - INFO - Initializing model registry...
+2026-05-23 01:51:06,983 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 01:51:07,053 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           N/A            
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 01:51:07,053 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:51:07,053 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_small
+2026-05-23 01:51:07,053 - __main__ - INFO - ================================================================================
+2026-05-23 01:51:07,061 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:51:07,076 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:51:07,129 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 01:51:07,139 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_015107_train_spatiotemporal_hybrid_small\configs\config_snapshot.yaml
+2026-05-23 01:51:08,616 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=7fa1f3f3ef454c309e972187fa502f2e name=20260523_015107_train_spatiotemporal_hybrid_small
+2026-05-23 01:51:08,963 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_015107_train_spatiotemporal_hybrid_small\logs\tensorboard
+2026-05-23 01:51:08,964 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_015107_train_spatiotemporal_hybrid_small
+2026-05-23 01:51:08,968 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 01:51:08,968 - __main__ - INFO - Building model: spatiotemporal_hybrid_small
+2026-05-23 01:51:08,980 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_small
+2026-05-23 01:51:08,982 - __main__ - INFO - Model complexity: Params: 361.9K
+2026-05-23 01:51:09,024 - engine.composite_lightning - INFO - Model complexity: Params: 361.9K
+2026-05-23 01:51:09,024 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 01:51:09,634 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:51:09,640 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:51:09,870 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:51:09,879 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:51:09,879 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 01:51:09,935 - __main__ - INFO - Starting training...
+2026-05-23 01:51:11,572 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_small: The size of tensor a (256) must match the size of tensor b (257) at non-singleton dimension 3
+2026-05-23 01:51:11,587 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:51:11,587 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:51:11,587 - __main__ - INFO - ================================================================================
+2026-05-23 01:51:11,587 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:51:11,588 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:51:11,588 - __main__ - INFO - ================================================================================
+2026-05-23 01:53:56,678 - __main__ - INFO - ================================================================================
+2026-05-23 01:53:56,678 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 01:53:56,678 - __main__ - INFO - ================================================================================
+2026-05-23 01:53:56,678 - __main__ - INFO - Device: cuda
+2026-05-23 01:53:56,679 - __main__ - INFO - Seed: 42
+2026-05-23 01:53:56,679 - __main__ - INFO - Initializing model registry...
+2026-05-23 01:53:57,006 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 01:53:57,080 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           N/A            
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 01:53:57,080 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:53:57,080 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_small
+2026-05-23 01:53:57,081 - __main__ - INFO - ================================================================================
+2026-05-23 01:53:57,086 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:53:57,105 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:53:57,148 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 01:53:57,159 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_015357_train_spatiotemporal_hybrid_small\configs\config_snapshot.yaml
+2026-05-23 01:53:58,435 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=49a404370ff8456f9c4e3a20bacfc80d name=20260523_015357_train_spatiotemporal_hybrid_small
+2026-05-23 01:53:58,880 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_015357_train_spatiotemporal_hybrid_small\logs\tensorboard
+2026-05-23 01:53:58,882 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_015357_train_spatiotemporal_hybrid_small
+2026-05-23 01:53:58,887 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 01:53:58,887 - __main__ - INFO - Building model: spatiotemporal_hybrid_small
+2026-05-23 01:53:58,906 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_small
+2026-05-23 01:53:58,907 - __main__ - INFO - Model complexity: Params: 361.9K
+2026-05-23 01:53:58,956 - engine.composite_lightning - INFO - Model complexity: Params: 361.9K
+2026-05-23 01:53:58,956 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 01:53:59,238 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:53:59,247 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:53:59,501 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:53:59,508 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:53:59,509 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 01:53:59,573 - __main__ - INFO - Starting training...
+2026-05-23 01:55:54,966 - __main__ - INFO - ================================================================================
+2026-05-23 01:55:54,967 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 01:55:54,967 - __main__ - INFO - ================================================================================
+2026-05-23 01:55:54,968 - __main__ - INFO - Device: cuda
+2026-05-23 01:55:54,968 - __main__ - INFO - Seed: 42
+2026-05-23 01:55:54,968 - __main__ - INFO - Initializing model registry...
+2026-05-23 01:55:55,455 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 01:55:55,535 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           N/A            
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 01:55:55,535 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:55:55,536 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_base
+2026-05-23 01:55:55,536 - __main__ - INFO - ================================================================================
+2026-05-23 01:55:55,542 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:55:55,560 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 01:55:55,607 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 01:55:55,618 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_015555_train_spatiotemporal_hybrid_base\configs\config_snapshot.yaml
+2026-05-23 01:55:57,060 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=b695d83a4a2f4263af3602ff170105e3 name=20260523_015555_train_spatiotemporal_hybrid_base
+2026-05-23 01:55:57,581 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_015555_train_spatiotemporal_hybrid_base\logs\tensorboard
+2026-05-23 01:55:57,583 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_015555_train_spatiotemporal_hybrid_base
+2026-05-23 01:55:57,591 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 01:55:57,592 - __main__ - INFO - Building model: spatiotemporal_hybrid_base
+2026-05-23 01:55:57,628 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_base
+2026-05-23 01:55:57,631 - __main__ - INFO - Model complexity: Params: 1.59M
+2026-05-23 01:55:57,721 - engine.composite_lightning - INFO - Model complexity: Params: 1.59M
+2026-05-23 01:55:57,721 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 01:55:58,103 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:55:58,112 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:55:58,417 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 01:55:58,427 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 01:55:58,428 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 01:55:58,501 - __main__ - INFO - Starting training...
+2026-05-23 01:56:23,599 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_small: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2026-05-23 01:56:23,787 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:56:23,787 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 01:56:23,787 - __main__ - INFO - ================================================================================
+2026-05-23 01:56:23,788 - __main__ - INFO - 
+================================================================================
+2026-05-23 01:56:23,788 - __main__ - INFO - Training completed successfully!
+2026-05-23 01:56:23,788 - __main__ - INFO - ================================================================================
+2026-05-23 02:07:51,017 - __main__ - INFO - ================================================================================
+2026-05-23 02:07:51,018 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 02:07:51,018 - __main__ - INFO - ================================================================================
+2026-05-23 02:07:51,018 - __main__ - INFO - Device: cuda
+2026-05-23 02:07:51,018 - __main__ - INFO - Seed: 42
+2026-05-23 02:07:51,019 - __main__ - INFO - Initializing model registry...
+2026-05-23 02:07:51,455 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 02:07:51,541 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           N/A            
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 02:07:51,542 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:07:51,542 - __main__ - INFO - Training model variant: resnet_medium
+2026-05-23 02:07:51,542 - __main__ - INFO - ================================================================================
+2026-05-23 02:07:51,550 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:07:51,567 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:07:51,625 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 02:07:51,639 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_020751_train_resnet_medium\configs\config_snapshot.yaml
+2026-05-23 02:07:53,497 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=62fac75476bc4d95b11950689030c65b name=20260523_020751_train_resnet_medium
+2026-05-23 02:07:53,975 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_020751_train_resnet_medium\logs\tensorboard
+2026-05-23 02:07:53,977 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_020751_train_resnet_medium
+2026-05-23 02:07:53,983 - __main__ - INFO - Building model: resnet_medium
+2026-05-23 02:07:54,007 - models.model_registry - INFO - Built model: resnet_medium
+2026-05-23 02:07:54,009 - __main__ - INFO - Model complexity: Params: 2.35M
+2026-05-23 02:07:54,060 - engine.composite_lightning - INFO - Model complexity: Params: 2.35M
+2026-05-23 02:07:54,061 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 02:07:54,360 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 02:07:54,368 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 02:07:54,608 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 02:07:54,616 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 02:07:54,616 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 02:07:54,673 - __main__ - INFO - Starting training...
+2026-05-23 02:07:55,523 - __main__ - ERROR - Failed to train resnet_medium: Sizes of tensors must match except in dimension 1. Expected size 8 but got size 7 for tensor number 1 in the list.
+2026-05-23 02:07:55,553 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:07:55,553 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 02:07:55,554 - __main__ - INFO - ================================================================================
+2026-05-23 02:07:55,554 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:07:55,554 - __main__ - INFO - Training completed successfully!
+2026-05-23 02:07:55,554 - __main__ - INFO - ================================================================================
+2026-05-23 02:11:49,400 - __main__ - INFO - ================================================================================
+2026-05-23 02:11:49,400 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 02:11:49,401 - __main__ - INFO - ================================================================================
+2026-05-23 02:11:49,401 - __main__ - INFO - Device: cuda
+2026-05-23 02:11:49,401 - __main__ - INFO - Seed: 42
+2026-05-23 02:11:49,401 - __main__ - INFO - Initializing model registry...
+2026-05-23 02:11:49,856 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 02:11:49,958 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           N/A            
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-23 02:11:49,958 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:11:49,958 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_small
+2026-05-23 02:11:49,958 - __main__ - INFO - ================================================================================
+2026-05-23 02:11:49,965 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:11:50,011 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:11:50,064 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 02:11:50,078 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_021149_train_spatiotemporal_hybrid_small\configs\config_snapshot.yaml
+2026-05-23 02:11:51,595 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=b419e74dc452443a8048f0a5587c8490 name=20260523_021149_train_spatiotemporal_hybrid_small
+2026-05-23 02:11:52,046 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_021149_train_spatiotemporal_hybrid_small\logs\tensorboard
+2026-05-23 02:11:52,049 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_021149_train_spatiotemporal_hybrid_small
+2026-05-23 02:11:52,054 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 02:11:52,055 - __main__ - INFO - Building model: spatiotemporal_hybrid_small
+2026-05-23 02:11:52,069 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_small
+2026-05-23 02:11:52,071 - __main__ - INFO - Model complexity: Params: 361.9K
+2026-05-23 02:11:52,126 - engine.composite_lightning - INFO - Model complexity: Params: 361.9K
+2026-05-23 02:11:52,126 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-23 02:11:52,447 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 02:11:52,455 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 02:11:52,766 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-23 02:11:52,778 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-23 02:11:52,779 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-23 02:11:52,860 - __main__ - INFO - Starting training...
+2026-05-23 02:13:59,492 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_base: CUDA error: out of memory
+Search for `cudaErrorMemoryAllocation' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2026-05-23 02:13:59,866 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:13:59,867 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 02:13:59,867 - __main__ - INFO - ================================================================================
+2026-05-23 02:13:59,868 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:13:59,868 - __main__ - INFO - Training completed successfully!
+2026-05-23 02:13:59,869 - __main__ - INFO - ================================================================================
+2026-05-23 02:34:06,903 - __main__ - INFO - Exporting training metrics...
+2026-05-23 02:34:06,908 - __main__ - INFO - Exported metrics: {'csv': None, 'json': WindowsPath('outputs/metrics/epoch_034_summary.json'), 'html': WindowsPath('outputs/metrics/epoch_034_report.html')}
+2026-05-23 02:34:06,913 - __main__ - INFO -   Best checkpoint: D:\ALPR_Research\outputs\experiments\20260523_021149_train_spatiotemporal_hybrid_small\checkpoints\best-epoch=13-val_psnr=14.877.ckpt
+2026-05-23 02:34:06,914 - __main__ - INFO -   Experiment dir: D:\ALPR_Research\outputs\experiments\20260523_021149_train_spatiotemporal_hybrid_small
+2026-05-23 02:34:06,938 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:34:06,939 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 02:34:06,939 - __main__ - INFO - ================================================================================
+2026-05-23 02:34:06,939 - __main__ - INFO - 
+Model: spatiotemporal_hybrid_small
+2026-05-23 02:34:06,939 - __main__ - INFO -   Params: 361.9K
+2026-05-23 02:34:06,940 - __main__ - INFO -   Best checkpoint: best-epoch=13-val_psnr=14.877.ckpt
+2026-05-23 02:34:06,940 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:34:06,940 - __main__ - INFO - Training completed successfully!
+2026-05-23 02:34:06,940 - __main__ - INFO - ================================================================================
+2026-05-23 02:38:17,792 - __main__ - INFO - ================================================================================
+2026-05-23 02:38:17,792 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 02:38:17,792 - __main__ - INFO - ================================================================================
+2026-05-23 02:38:17,792 - __main__ - INFO - Device: cuda
+2026-05-23 02:38:17,792 - __main__ - INFO - Seed: 42
+2026-05-23 02:38:17,793 - __main__ - INFO - Initializing model registry...
+2026-05-23 02:38:18,682 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:38:18,683 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 16 time(s)
+2026-05-23 02:38:18,683 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 4 time(s)
+2026-05-23 02:38:18,683 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 4 time(s)
+2026-05-23 02:38:18,683 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 16 time(s)
+2026-05-23 02:38:18,683 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 4 time(s)
+2026-05-23 02:38:18,684 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 26 time(s)
+2026-05-23 02:38:18,684 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 8 time(s)
+2026-05-23 02:38:18,684 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, ocr_hook
+2026-05-23 02:38:19,537 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:38:19,537 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 02:38:19,538 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 5 time(s)
+2026-05-23 02:38:19,538 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 5 time(s)
+2026-05-23 02:38:19,538 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 20 time(s)
+2026-05-23 02:38:19,538 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 5 time(s)
+2026-05-23 02:38:19,538 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 31 time(s)
+2026-05-23 02:38:19,539 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 10 time(s)
+2026-05-23 02:38:19,539 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 02:38:20,790 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:38:20,791 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 18 time(s)
+2026-05-23 02:38:20,792 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 6 time(s)
+2026-05-23 02:38:20,795 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 6 time(s)
+2026-05-23 02:38:20,795 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 24 time(s)
+2026-05-23 02:38:20,796 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 6 time(s)
+2026-05-23 02:38:20,796 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 36 time(s)
+2026-05-23 02:38:20,796 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 12 time(s)
+2026-05-23 02:38:20,798 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc1.2.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 02:38:21,239 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 19 time(s)
+2026-05-23 02:38:21,240 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 3 time(s)
+2026-05-23 02:38:21,240 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 2 time(s)
+2026-05-23 02:38:21,240 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 02:38:22,045 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 28 time(s)
+2026-05-23 02:38:22,045 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 4 time(s)
+2026-05-23 02:38:22,046 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 3 time(s)
+2026-05-23 02:38:22,046 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 02:38:22,630 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 02:38:22,630 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 9 time(s)
+2026-05-23 02:38:26,116 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 35 time(s)
+2026-05-23 02:38:26,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 72 time(s)
+2026-05-23 02:38:26,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 10 time(s)
+2026-05-23 02:38:26,117 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 10 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 60 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 10 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 20 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 20 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mean encountered 10 time(s)
+2026-05-23 02:38:26,118 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+bottleneck.0.swin.attn.out_proj, bottleneck.1.swin.attn.out_proj, decoder_blocks.0.swin.attn.out_proj, decoder_blocks.1.swin.attn.out_proj, decoder_blocks.2.swin.attn.out_proj, decoder_blocks.3.swin.attn.out_proj, encoder_blocks.0.swin.attn.out_proj, encoder_blocks.1.swin.attn.out_proj, encoder_blocks.2.swin.attn.out_proj, encoder_blocks.3.swin.attn.out_proj
+2026-05-23 02:38:26,203 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 02:38:26,301 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           61.45G         
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          10.26G         
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          13.57G         
+swinir_large                   large      611.3K          26.14G         
+swinir_small                   small      138.1K          5.98G          
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          12.95G         
+unet_standard                  base       8.78M           43.25G         
+================================================================================
+
+2026-05-23 02:38:26,302 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:38:26,302 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_base
+2026-05-23 02:38:26,302 - __main__ - INFO - ================================================================================
+2026-05-23 02:38:26,313 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:38:26,331 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:38:26,392 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 02:38:26,406 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_023826_train_spatiotemporal_hybrid_base\configs\config_snapshot.yaml
+2026-05-23 02:38:28,103 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=efa69e956ca64967bf92b3d9b9d24d1b name=20260523_023826_train_spatiotemporal_hybrid_base
+2026-05-23 02:38:28,573 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_023826_train_spatiotemporal_hybrid_base\logs\tensorboard
+2026-05-23 02:38:28,576 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_023826_train_spatiotemporal_hybrid_base
+2026-05-23 02:38:28,580 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 02:38:28,581 - __main__ - INFO - Building model: spatiotemporal_hybrid_base
+2026-05-23 02:38:28,617 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_base
+2026-05-23 02:38:28,635 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_base: Given groups=1, weight of size [56, 15, 3, 3], expected input[1, 3, 256, 256] to have 15 channels, but got 3 channels instead
+2026-05-23 02:38:28,669 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:38:28,669 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 02:38:28,669 - __main__ - INFO - ================================================================================
+2026-05-23 02:38:28,669 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:38:28,670 - __main__ - INFO - Training completed successfully!
+2026-05-23 02:38:28,670 - __main__ - INFO - ================================================================================
+2026-05-23 02:51:21,295 - __main__ - INFO - ================================================================================
+2026-05-23 02:51:21,295 - __main__ - INFO - Custom Restoration Model Training
+2026-05-23 02:51:21,295 - __main__ - INFO - ================================================================================
+2026-05-23 02:51:21,295 - __main__ - INFO - Device: cuda
+2026-05-23 02:51:21,295 - __main__ - INFO - Seed: 42
+2026-05-23 02:51:21,296 - __main__ - INFO - Initializing model registry...
+2026-05-23 02:51:22,069 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:51:22,070 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 16 time(s)
+2026-05-23 02:51:22,070 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 4 time(s)
+2026-05-23 02:51:22,070 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 4 time(s)
+2026-05-23 02:51:22,070 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 16 time(s)
+2026-05-23 02:51:22,071 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 4 time(s)
+2026-05-23 02:51:22,071 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 26 time(s)
+2026-05-23 02:51:22,071 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 8 time(s)
+2026-05-23 02:51:22,071 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, ocr_hook
+2026-05-23 02:51:22,876 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:51:22,876 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 02:51:22,876 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 5 time(s)
+2026-05-23 02:51:22,876 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 5 time(s)
+2026-05-23 02:51:22,876 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 20 time(s)
+2026-05-23 02:51:22,877 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 5 time(s)
+2026-05-23 02:51:22,877 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 31 time(s)
+2026-05-23 02:51:22,877 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 10 time(s)
+2026-05-23 02:51:22,877 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 02:51:24,012 - fvcore.nn.jit_analysis - WARNING - Unsupported operator prim::PythonOp._NoopSaveInputs encountered 7 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 18 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 6 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 6 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 24 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 6 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 36 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 12 time(s)
+2026-05-23 02:51:24,013 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+enc1.0.attn.out_proj, enc1.1.attn.out_proj, enc1.2.attn.out_proj, enc2.0.attn.out_proj, enc2.1.attn.out_proj, enc2.2.attn.out_proj, ocr_hook
+2026-05-23 02:51:24,302 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 19 time(s)
+2026-05-23 02:51:24,302 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 3 time(s)
+2026-05-23 02:51:24,303 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 2 time(s)
+2026-05-23 02:51:24,303 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 02:51:24,923 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 28 time(s)
+2026-05-23 02:51:24,923 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 4 time(s)
+2026-05-23 02:51:24,923 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::max_pool2d encountered 3 time(s)
+2026-05-23 02:51:24,924 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 1 time(s)
+2026-05-23 02:51:25,411 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 17 time(s)
+2026-05-23 02:51:25,411 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 9 time(s)
+2026-05-23 02:51:28,586 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::gelu encountered 35 time(s)
+2026-05-23 02:51:28,587 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::add encountered 72 time(s)
+2026-05-23 02:51:28,587 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::div encountered 10 time(s)
+2026-05-23 02:51:28,587 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::unflatten encountered 10 time(s)
+2026-05-23 02:51:28,587 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mul encountered 60 time(s)
+2026-05-23 02:51:28,588 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::scaled_dot_product_attention encountered 10 time(s)
+2026-05-23 02:51:28,588 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::rsub encountered 20 time(s)
+2026-05-23 02:51:28,588 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::sigmoid encountered 20 time(s)
+2026-05-23 02:51:28,588 - fvcore.nn.jit_analysis - WARNING - Unsupported operator aten::mean encountered 10 time(s)
+2026-05-23 02:51:28,589 - fvcore.nn.jit_analysis - WARNING - The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+bottleneck.0.swin.attn.out_proj, bottleneck.1.swin.attn.out_proj, decoder_blocks.0.swin.attn.out_proj, decoder_blocks.1.swin.attn.out_proj, decoder_blocks.2.swin.attn.out_proj, decoder_blocks.3.swin.attn.out_proj, encoder_blocks.0.swin.attn.out_proj, encoder_blocks.1.swin.attn.out_proj, encoder_blocks.2.swin.attn.out_proj, encoder_blocks.3.swin.attn.out_proj
+2026-05-23 02:51:28,659 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-23 02:51:28,726 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.58M           61.45G         
+spatiotemporal_hybrid_base     base       1.59M           N/A            
+spatiotemporal_hybrid_small    small      361.9K          N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          10.26G         
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          13.57G         
+swinir_large                   large      611.3K          26.14G         
+swinir_small                   small      138.1K          5.98G          
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          12.95G         
+unet_standard                  base       8.78M           43.25G         
+================================================================================
+
+2026-05-23 02:51:28,727 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:51:28,727 - __main__ - INFO - Training model variant: spatiotemporal_hybrid_base
+2026-05-23 02:51:28,727 - __main__ - INFO - ================================================================================
+2026-05-23 02:51:28,731 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:51:28,747 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-23 02:51:28,785 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-23 02:51:28,795 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260523_025128_train_spatiotemporal_hybrid_base\configs\config_snapshot.yaml
+2026-05-23 02:51:29,927 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=d7f8f267cf144017bf1f7b0c833a7fef name=20260523_025128_train_spatiotemporal_hybrid_base
+2026-05-23 02:51:30,271 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260523_025128_train_spatiotemporal_hybrid_base\logs\tensorboard
+2026-05-23 02:51:30,273 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260523_025128_train_spatiotemporal_hybrid_base
+2026-05-23 02:51:30,277 - __main__ - INFO - Spatiotemporal model detected: automatically switching input_mode to 'sequence'.
+2026-05-23 02:51:30,277 - __main__ - INFO - Building model: spatiotemporal_hybrid_base
+2026-05-23 02:51:30,297 - models.model_registry - INFO - Built model: spatiotemporal_hybrid_base
+2026-05-23 02:51:30,311 - __main__ - ERROR - Failed to train spatiotemporal_hybrid_base: Given groups=1, weight of size [56, 15, 3, 3], expected input[1, 3, 256, 256] to have 15 channels, but got 3 channels instead
+2026-05-23 02:51:30,329 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:51:30,329 - __main__ - INFO - TRAINING SUMMARY
+2026-05-23 02:51:30,330 - __main__ - INFO - ================================================================================
+2026-05-23 02:51:30,330 - __main__ - INFO - 
+================================================================================
+2026-05-23 02:51:30,330 - __main__ - INFO - Training completed successfully!
+2026-05-23 02:51:30,330 - __main__ - INFO - ================================================================================

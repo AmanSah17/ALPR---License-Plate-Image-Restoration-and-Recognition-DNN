@@ -47,7 +47,7 @@ class ModelRegistry:
         """
         cls._registry[name] = (model_class, config)
         cls._metadata[name] = metadata
-        logger.info(f"✓ Registered model: {name} ({metadata.num_params / 1e3:.1f}K params)")
+        logger.info(f"[OK] Registered model: {name} ({metadata.num_params / 1e3:.1f}K params)")
 
     @classmethod
     def build(cls, name: str, **kwargs) -> nn.Module:
@@ -168,6 +168,7 @@ def initialize_registry():
     from models.restoration.unet_variants import UNetLite, UNetStandard, UNetDense
     from models.restoration.resnet_variants import RestorationResNetSmall, RestorationResNetMedium
     from models.restoration.hybrid_attention import HybridAttentionRestoration
+    from models.restoration.spatiotemporal_hybrid import SpatiotemporalHybridRestoration
 
     # SwinIR variants
     # ========================================================================
@@ -407,6 +408,59 @@ def initialize_registry():
             scale="base",
             num_params=params_hybrid,
             estimated_flops=flops_hybrid,
+        ),
+    )
+
+    # Spatiotemporal Hybrid Attention
+    config_st_hybrid_base = {
+        "in_channels": 15,  # 5 frames
+        "out_channels": 3,
+        "base_channels": 56,
+        "num_blocks": 4,
+        "window_size": 4,
+        "num_heads": 4,
+    }
+    st_hybrid_base = SpatiotemporalHybridRestoration(**config_st_hybrid_base)
+    params_st_hybrid_base = count_parameters(st_hybrid_base)
+    flops_st_hybrid_base = estimate_model_flops(st_hybrid_base)
+
+    ModelRegistry.register(
+        "spatiotemporal_hybrid_base",
+        SpatiotemporalHybridRestoration,
+        config_st_hybrid_base,
+        ModelMetadata(
+            family="hybrid",
+            name="spatiotemporal_hybrid_base",
+            scale="base",
+            num_params=params_st_hybrid_base,
+            estimated_flops=flops_st_hybrid_base,
+            input_channels=15,
+        ),
+    )
+
+    config_st_hybrid_small = {
+        "in_channels": 15,
+        "out_channels": 3,
+        "base_channels": 32,
+        "num_blocks": 3,
+        "window_size": 4,
+        "num_heads": 4,
+    }
+    st_hybrid_small = SpatiotemporalHybridRestoration(**config_st_hybrid_small)
+    params_st_hybrid_small = count_parameters(st_hybrid_small)
+    flops_st_hybrid_small = estimate_model_flops(st_hybrid_small)
+
+    ModelRegistry.register(
+        "spatiotemporal_hybrid_small",
+        SpatiotemporalHybridRestoration,
+        config_st_hybrid_small,
+        ModelMetadata(
+            family="hybrid",
+            name="spatiotemporal_hybrid_small",
+            scale="small",
+            num_params=params_st_hybrid_small,
+            estimated_flops=flops_st_hybrid_small,
+            input_channels=15,
         ),
     )
 

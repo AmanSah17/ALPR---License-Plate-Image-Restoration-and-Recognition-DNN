@@ -140,7 +140,13 @@ class CompositeRestorationLightningModule(RestorationLightningModule):
         metrics.update(quality_metrics)
 
         # Baseline comparison (gain vs input)
-        baseline_metrics = self.metric_computer.compute_all_metrics(input_tensor, target, compute_lpips=False)
+        input_for_baseline = input_tensor
+        if input_tensor.shape[1] > 3 and input_tensor.shape[1] % 3 == 0:
+            seq_len = input_tensor.shape[1] // 3
+            center_idx = seq_len // 2
+            input_for_baseline = input_tensor[:, center_idx*3:(center_idx+1)*3, :, :]
+            
+        baseline_metrics = self.metric_computer.compute_all_metrics(input_for_baseline, target, compute_lpips=False)
         if "psnr" in quality_metrics and "psnr" in baseline_metrics:
             metrics["psnr_gain_vs_input"] = quality_metrics["psnr"] - baseline_metrics["psnr"]
         if "ssim" in quality_metrics and "ssim" in baseline_metrics:

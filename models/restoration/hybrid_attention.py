@@ -13,6 +13,8 @@ import torch.nn.functional as F
 from typing import Optional
 import math
 
+from models.common.blocks import SwinTransformerBlock, ResidualBlock
+
 
 class ChannelAttention(nn.Module):
     """Channel attention module (squeeze-and-excitation style)"""
@@ -68,69 +70,7 @@ class CBAM(nn.Module):
         return x
 
 
-class SwinTransformerBlock(nn.Module):
-    """Swin Transformer block (simplified from SwinIRUNetHybrid)"""
 
-    def __init__(self, channels: int, window_size: int = 4, num_heads: int = 4):
-        super().__init__()
-
-        self.norm1 = nn.LayerNorm(channels)
-        # Simplified: using standard multi-head attention
-        self.mha = nn.MultiheadAttention(channels, num_heads, batch_first=True)
-
-        self.norm2 = nn.LayerNorm(channels)
-        mlp_dim = channels * 4
-        self.mlp = nn.Sequential(
-            nn.Linear(channels, mlp_dim),
-            nn.GELU(),
-            nn.Linear(mlp_dim, channels),
-        )
-
-        self.window_size = window_size
-
-    def forward(self, x):
-        # x: (B, C, H, W)
-        B, C, H, W = x.shape
-        
-        # Reshape to window format and apply attention
-        # Simplified: just use global attention for stability
-        x_flat = x.flatten(2).permute(0, 2, 1)  # (B, HW, C)
-        x_norm = self.norm1(x_flat)
-        attn_out, _ = self.mha(x_norm, x_norm, x_norm)
-        x_flat = x_flat + attn_out
-
-        # MLP
-        x_norm = self.norm2(x_flat)
-        mlp_out = self.mlp(x_norm)
-        x_flat = x_flat + mlp_out
-
-        # Reshape back
-        x = x_flat.permute(0, 2, 1).reshape(B, C, H, W)
-        return x
-
-
-class ResidualBlock(nn.Module):
-    """Residual block with Conv -> GroupNorm -> GELU"""
-
-    def __init__(self, channels: int):
-        super().__init__()
-        self.conv1 = nn.Conv2d(channels, channels, kernel_size=3, padding=1, bias=False)
-        self.norm1 = nn.GroupNorm(num_groups=max(1, channels // 8), num_channels=channels)
-        self.act = nn.GELU()
-
-        self.conv2 = nn.Conv2d(channels, channels, kernel_size=3, padding=1, bias=False)
-        self.norm2 = nn.GroupNorm(num_groups=max(1, channels // 8), num_channels=channels)
-
-    def forward(self, x):
-        residual = x
-        x = self.conv1(x)
-        x = self.norm1(x)
-        x = self.act(x)
-        x = self.conv2(x)
-        x = self.norm2(x)
-        x = x + residual
-        x = self.act(x)
-        return x
 
 
 class AttentionBlock(nn.Module):
@@ -252,6 +192,11 @@ class HybridAttentionRestoration(nn.Module):
 
         # Decoder
         x = self.up(x)
+        
+        # Match odd/even spatial sizes after down/up (variable RLPR HxW)
+        if x.shape[-2:] != skip.shape[-2:]:
+            x = F.interpolate(x, size=skip.shape[-2:], mode="bilinear", align_corners=False)
+            
         x = x + skip  # Skip connection
 
         for block in self.decoder_blocks:
