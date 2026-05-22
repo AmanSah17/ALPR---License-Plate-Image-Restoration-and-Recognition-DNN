@@ -1,0 +1,40 @@
+# Phase 3 — Optical flow pipeline configuration
+defaults:
+  - model.yaml
+  - dataset.yaml
+
+phase:
+  name: optical_flow
+  version: 1
+
+optical_flow:
+  backend: raft_small
+  pretrained: true
+  mixed_precision: true
+  batch_size: 1
+  iters: 12
+  min_spatial_size: 128  # RAFT requires ~128px min side after encoder stride
+  pad_to_multiple: 8
+  reference_frame: center  # warp all frames toward center (16.png)
+  max_frame_pairs: 8  # limit pairs for low VRAM; null = all frames to reference
+  temporal_filter:
+    enabled: true
+    method: median
+    window_size: 3
+
+output:
+  save_flow_numpy: true
+  save_warped_png: true
+  save_overlays: true
+  save_error_maps: true
+  save_hsv: true
+  save_magnitude: true
+  save_temporal_consistency: true
+
+benchmark:
+  warmup_iterations: 3
+  timed_iterations: 10
+  profile_memory: true
+
+reproducibility:
+  seed: 42

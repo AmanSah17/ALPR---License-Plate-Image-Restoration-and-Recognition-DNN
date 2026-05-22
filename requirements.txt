@@ -1,0 +1,45 @@
+# MF-LPR2 Research Framework — Phase 1+ dependencies
+# Pinned for reproducibility on Windows + CUDA (GTX 1650, 4GB VRAM)
+
+# Core
+torch>=2.1.0,<2.5.0
+torchvision>=0.16.0,<0.20.0
+numpy>=1.24.0,<2.0.0
+opencv-python-headless>=4.8.0,<5.0.0
+Pillow>=10.0.0,<11.0.0
+PyYAML>=6.0.1,<7.0.0
+omegaconf>=2.3.0,<3.0.0
+
+# Training engine (used from Phase 8+)
+pytorch-lightning>=2.1.0,<3.0.0
+torchmetrics>=1.2.0,<2.0.0
+
+# Metrics & perceptual losses (Phase 7+)
+scikit-image>=0.22.0,<0.25.0
+lpips>=0.1.4,<0.2.0
+
+# Experiment tracking (MLflow is primary)
+mlflow>=2.9.0,<3.0.0
+tensorboard>=2.14.0,<3.0.0
+
+# Utilities
+tqdm>=4.66.0,<5.0.0
+rich>=13.7.0,<14.0.0
+matplotlib>=3.8.0,<4.0.0
+pandas>=2.1.0,<3.0.0
+scipy>=1.11.0,<2.0.0
+einops>=0.7.0,<0.8.0
+
+# Optical flow (Phase 3+) — torchvision RAFT weights
+# PARSeq OCR (Phase 6+) — installed separately when needed
+
+# Profiling & benchmarking
+psutil>=5.9.0,<6.0.0
+thop>=0.1.1.post2209072238,<0.2.0
+
+# Config validation
+jsonschema>=4.20.0,<5.0.0
+
+# Development / testing (optional but recommended)
+pytest>=7.4.0,<9.0.0
+pytest-cov>=4.1.0,<6.0.0

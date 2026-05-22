@@ -1,0 +1,15 @@
+# Canonical development environment (CUDA + Numba)
+environment:
+  name: gemma4
+  venv_root: "D:/gemma4/gemma4"
+  python: "D:/gemma4/gemma4/Scripts/python.exe"
+  activate_ps1: "D:/gemma4/gemma4/Scripts/Activate.ps1"
+  activate_bat: "D:/gemma4/gemma4/Scripts/activate.bat"
+
+features:
+  cuda: true
+  numba: true
+  mlflow: true
+  tensorboard: optional  # pip install tensorboard into gemma4 if needed
+
+# Override via environment variables: MF_LPR_VENV, MF_LPR_PYTHON

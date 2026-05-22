@@ -1,0 +1,39 @@
+# Inference & benchmarking configuration
+defaults:
+  - model.yaml
+  - dataset.yaml
+
+experiment:
+  name: mf_lpr2_inference
+  tags: [inference, benchmark]
+
+inference:
+  checkpoint_path: null
+  output_subdir: predictions
+  save_intermediates: true
+  save_visualizations: true
+  mixed_precision: true
+  batch_size: 1
+  num_workers: 0
+
+benchmark:
+  enabled: true
+  warmup_iterations: 5
+  timed_iterations: 50
+  profile_memory: true
+  profile_flops: false
+  report_formats: [json, csv, markdown]
+
+visualization:
+  save_flow_hsv: true
+  save_attention_maps: true
+  save_error_maps: true
+  dpi: 150
+
+logging:
+  use_mlflow: true
+  use_tensorboard: false
+  use_wandb: false
+
+reproducibility:
+  seed: 42

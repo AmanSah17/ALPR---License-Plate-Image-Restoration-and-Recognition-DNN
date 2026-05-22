@@ -1,0 +1,297 @@
+2026-05-22 23:06:16,788 - __main__ - INFO - ================================================================================
+2026-05-22 23:06:16,788 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:06:16,789 - __main__ - INFO - ================================================================================
+2026-05-22 23:06:16,789 - __main__ - INFO - Device: cuda
+2026-05-22 23:06:16,789 - __main__ - INFO - Seed: 42
+2026-05-22 23:06:16,789 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:07:02,654 - __main__ - INFO - ================================================================================
+2026-05-22 23:07:02,655 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:07:02,657 - __main__ - INFO - ================================================================================
+2026-05-22 23:07:02,657 - __main__ - INFO - Device: cuda
+2026-05-22 23:07:02,657 - __main__ - INFO - Seed: 42
+2026-05-22 23:07:02,657 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:07:02,925 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:11:05,580 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:05,580 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:11:05,581 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:05,581 - __main__ - INFO - Device: cuda
+2026-05-22 23:11:05,581 - __main__ - INFO - Seed: 42
+2026-05-22 23:11:05,581 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:11:05,806 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:11:41,855 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:41,855 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:11:41,856 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:41,856 - __main__ - INFO - Device: cuda
+2026-05-22 23:11:41,856 - __main__ - INFO - Seed: 42
+2026-05-22 23:11:41,856 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:11:42,101 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:11:42,170 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-22 23:11:42,170 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:11:42,170 - __main__ - INFO - Training model variant: hybrid_attention
+2026-05-22 23:11:42,171 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:42,175 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:11:42,190 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:11:42,228 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-22 23:11:42,238 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260522_231142_train_hybrid_attention\configs\config_snapshot.yaml
+2026-05-22 23:11:43,142 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=0b2eceff1daa45b083d2903fe26ecae8 name=20260522_231142_train_hybrid_attention
+2026-05-22 23:11:43,485 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260522_231142_train_hybrid_attention\logs\tensorboard
+2026-05-22 23:11:43,487 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260522_231142_train_hybrid_attention
+2026-05-22 23:11:43,490 - __main__ - ERROR - Failed to train hybrid_attention: 'dict' object has no attribute 'max_epochs' and no __dict__ for setting new attributes
+2026-05-22 23:11:43,491 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:11:43,491 - __main__ - INFO - TRAINING SUMMARY
+2026-05-22 23:11:43,491 - __main__ - INFO - ================================================================================
+2026-05-22 23:11:43,491 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:11:43,491 - __main__ - INFO - Training completed successfully!
+2026-05-22 23:11:43,492 - __main__ - INFO - ================================================================================
+2026-05-22 23:12:17,288 - __main__ - INFO - ================================================================================
+2026-05-22 23:12:17,288 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:12:17,288 - __main__ - INFO - ================================================================================
+2026-05-22 23:12:17,288 - __main__ - INFO - Device: cuda
+2026-05-22 23:12:17,288 - __main__ - INFO - Seed: 42
+2026-05-22 23:12:17,288 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:12:17,517 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:12:17,583 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-22 23:12:17,584 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:12:17,584 - __main__ - INFO - Training model variant: hybrid_attention
+2026-05-22 23:12:17,584 - __main__ - INFO - ================================================================================
+2026-05-22 23:12:17,589 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:12:17,628 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:12:17,665 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-22 23:12:17,675 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260522_231217_train_hybrid_attention\configs\config_snapshot.yaml
+2026-05-22 23:12:18,553 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=c62b42828a2d403e924f2453cebcb011 name=20260522_231217_train_hybrid_attention
+2026-05-22 23:12:18,868 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260522_231217_train_hybrid_attention\logs\tensorboard
+2026-05-22 23:12:18,870 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260522_231217_train_hybrid_attention
+2026-05-22 23:12:18,873 - __main__ - INFO - Building model: hybrid_attention
+2026-05-22 23:12:18,895 - models.model_registry - INFO - Built model: hybrid_attention
+2026-05-22 23:12:18,896 - __main__ - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:12:19,148 - engine.composite_lightning - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:12:19,148 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-22 23:12:19,430 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:12:19,437 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:12:19,652 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:12:19,659 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:12:19,659 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-22 23:12:19,708 - __main__ - INFO - Starting training...
+2026-05-22 23:12:20,612 - __main__ - ERROR - Failed to train hybrid_attention: `self.log(val/note, Mock CER from restoration metrics (SSIM/PSNR proxy). Real CER computed in Phase 6 with PARSeq OCR.)` was called, but `str` values cannot be logged
+2026-05-22 23:12:20,692 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:12:20,693 - __main__ - INFO - TRAINING SUMMARY
+2026-05-22 23:12:20,693 - __main__ - INFO - ================================================================================
+2026-05-22 23:12:20,693 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:12:20,693 - __main__ - INFO - Training completed successfully!
+2026-05-22 23:12:20,693 - __main__ - INFO - ================================================================================
+2026-05-22 23:13:13,977 - __main__ - INFO - ================================================================================
+2026-05-22 23:13:13,977 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:13:13,977 - __main__ - INFO - ================================================================================
+2026-05-22 23:13:13,977 - __main__ - INFO - Device: cuda
+2026-05-22 23:13:13,977 - __main__ - INFO - Seed: 42
+2026-05-22 23:13:13,977 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:13:14,216 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:13:14,287 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-22 23:13:14,287 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:13:14,287 - __main__ - INFO - Training model variant: hybrid_attention
+2026-05-22 23:13:14,287 - __main__ - INFO - ================================================================================
+2026-05-22 23:13:14,293 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:13:14,318 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:13:14,360 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-22 23:13:14,369 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260522_231314_train_hybrid_attention\configs\config_snapshot.yaml
+2026-05-22 23:13:15,290 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=3ea8b470d01f4ad080a17a3d2db73221 name=20260522_231314_train_hybrid_attention
+2026-05-22 23:13:15,610 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260522_231314_train_hybrid_attention\logs\tensorboard
+2026-05-22 23:13:15,612 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260522_231314_train_hybrid_attention
+2026-05-22 23:13:15,615 - __main__ - INFO - Building model: hybrid_attention
+2026-05-22 23:13:15,635 - models.model_registry - INFO - Built model: hybrid_attention
+2026-05-22 23:13:15,636 - __main__ - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:13:15,892 - engine.composite_lightning - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:13:15,893 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-22 23:13:16,155 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:13:16,162 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:13:16,390 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:13:16,403 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:13:16,404 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-22 23:13:16,539 - __main__ - INFO - Starting training...
+2026-05-22 23:14:46,576 - __main__ - ERROR - Failed to train hybrid_attention: If hue is a single number, it must be non negative.
+2026-05-22 23:14:46,584 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:14:46,584 - __main__ - INFO - TRAINING SUMMARY
+2026-05-22 23:14:46,584 - __main__ - INFO - ================================================================================
+2026-05-22 23:14:46,584 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:14:46,584 - __main__ - INFO - Training completed successfully!
+2026-05-22 23:14:46,584 - __main__ - INFO - ================================================================================
+2026-05-22 23:15:21,612 - __main__ - INFO - ================================================================================
+2026-05-22 23:15:21,612 - __main__ - INFO - Custom Restoration Model Training
+2026-05-22 23:15:21,612 - __main__ - INFO - ================================================================================
+2026-05-22 23:15:21,612 - __main__ - INFO - Device: cuda
+2026-05-22 23:15:21,612 - __main__ - INFO - Seed: 42
+2026-05-22 23:15:21,612 - __main__ - INFO - Initializing model registry...
+2026-05-22 23:15:21,855 - __main__ - INFO - Loading config from: configs/train_restoration.yaml
+2026-05-22 23:15:21,921 - __main__ - INFO - 
+Model Registry Summary:
+================================================================================
+
+HYBRID:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+hybrid_attention               base       1.79M           N/A            
+
+RESNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+resnet_medium                  medium     2.35M           N/A            
+resnet_small                   small      224.2K          N/A            
+
+SWINIR:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+swinir_base                    base       326.6K          N/A            
+swinir_large                   large      611.3K          N/A            
+swinir_small                   small      138.1K          N/A            
+
+UNET:
+--------------------------------------------------------------------------------
+Name                           Scale      Params          FLOPs          
+--------------------------------------------------------------------------------
+unet_dense                     large      17.19M          N/A            
+unet_lite                      small      944.3K          N/A            
+unet_standard                  base       8.78M           N/A            
+================================================================================
+
+2026-05-22 23:15:21,922 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:15:21,922 - __main__ - INFO - Training model variant: hybrid_attention
+2026-05-22 23:15:21,922 - __main__ - INFO - ================================================================================
+2026-05-22 23:15:21,927 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:15:21,970 - utils.seed_utils - INFO - Reproducibility applied (seed=42, deterministic=True, benchmark=False)
+2026-05-22 23:15:22,018 - utils.gpu_utils - INFO - GPU [NVIDIA GeForce GTX 1650:0] fp16 | alloc=0.0 MB reserved=0.0 MB peak=0.0 MB
+2026-05-22 23:15:22,031 - utils.config_loader - INFO - Saved config snapshot: D:\ALPR_Research\outputs\experiments\20260522_231521_train_hybrid_attention\configs\config_snapshot.yaml
+2026-05-22 23:15:22,961 - logging_utils.mlflow_logger - INFO - MLflow run started: experiment=mf_lpr2 run_id=7316b864a98b4775b476b0da4f052e7b name=20260522_231521_train_hybrid_attention
+2026-05-22 23:15:23,287 - logging_utils.tensorboard_logger - INFO - TensorBoard logging enabled: D:\ALPR_Research\outputs\experiments\20260522_231521_train_hybrid_attention\logs\tensorboard
+2026-05-22 23:15:23,289 - logging_utils.experiment_manager - INFO - Experiment created: D:\ALPR_Research\outputs\experiments\20260522_231521_train_hybrid_attention
+2026-05-22 23:15:23,292 - __main__ - INFO - Building model: hybrid_attention
+2026-05-22 23:15:23,312 - models.model_registry - INFO - Built model: hybrid_attention
+2026-05-22 23:15:23,314 - __main__ - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:15:23,584 - engine.composite_lightning - INFO - Model complexity: Params: 1.79M
+2026-05-22 23:15:23,584 - __main__ - INFO - Loading dataset with augmentation...
+2026-05-22 23:15:23,872 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:15:23,879 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:15:24,102 - datasets.validators - INFO - RLPR validation passed: 200 samples, 200 labels
+2026-05-22 23:15:24,109 - datasets.rlpr_dataset - INFO - RLPRDataset ready: 200 samples from D:\ALPR_Research\Realistic License Plate Restoration and Recognition Dataset (RLPR)
+2026-05-22 23:15:24,109 - __main__ - INFO - Train samples: 160, Val samples: 40
+2026-05-22 23:15:24,164 - __main__ - INFO - Starting training...
+2026-05-22 23:17:31,214 - __main__ - ERROR - Failed to train hybrid_attention: CUDA out of memory. Tried to allocate 2.17 GiB. GPU 0 has a total capacity of 4.00 GiB of which 0 bytes is free. Of the allocated memory 13.75 GiB is allocated by PyTorch, and 38.85 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+2026-05-22 23:17:31,452 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:17:31,452 - __main__ - INFO - TRAINING SUMMARY
+2026-05-22 23:17:31,452 - __main__ - INFO - ================================================================================
+2026-05-22 23:17:31,452 - __main__ - INFO - 
+================================================================================
+2026-05-22 23:17:31,452 - __main__ - INFO - Training completed successfully!
+2026-05-22 23:17:31,453 - __main__ - INFO - ================================================================================

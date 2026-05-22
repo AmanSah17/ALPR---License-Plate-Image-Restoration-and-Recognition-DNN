@@ -1,0 +1,67 @@
+# Augmentation Configuration for Restoration Training
+# Controls data augmentation applied during training to combat overfitting
+
+# Enable/disable augmentation globally
+enable_augmentation: true
+
+# Augmentation strength: "light" | "moderate" | "aggressive"
+# "light": Minimal transforms (±1° rotation, ±10% brightness, etc.)
+# "moderate": Balanced transforms (±2° rotation, ±15% brightness, etc.) — RECOMMENDED
+# "aggressive": Strong transforms (±3° rotation, ±20% brightness, elastic deformations)
+augmentation_strength: "moderate"
+
+# Per-transform configuration (overrides strength presets if uncommented)
+# transforms:
+#   rotation:
+#     enabled: true
+#     degrees: 2.0
+#   
+#   crop:
+#     enabled: true
+#     ratio_range: [0.80, 1.0]  # Keep 80-100% of image
+#   
+#   brightness:
+#     enabled: true
+#     factor: 0.15  # ±15%
+#   
+#   contrast:
+#     enabled: true
+#     factor: 0.15  # ±15%
+#   
+#   saturation:
+#     enabled: true
+#     factor: 0.15  # ±15%
+#   
+#   hue:
+#     enabled: true
+#     factor: 0.08  # ±8%
+#   
+#   gaussian_noise:
+#     enabled: true
+#     std: 0.02  # Standard deviation of Gaussian noise
+#   
+#   motion_blur:
+#     enabled: true
+#     kernel_size: [3, 5, 7]  # Random selection
+#     direction: ["horizontal", "vertical", "diagonal"]  # Random selection
+#   
+#   elastic_deformation:
+#     enabled: true
+#     alpha: 20  # Deformation strength
+#     sigma: 5   # Smoothing parameter
+#   
+#   horizontal_flip:
+#     enabled: true
+#     probability: 0.5  # 50% chance
+
+# Reproducibility
+# Set to null for non-deterministic behavior, or integer for reproducible augmentation
+random_seed: null
+
+# Apply augmentation only to training split (validation/test untouched)
+apply_to_train_only: true
+
+# Visualization settings for debugging
+visualize_augmentation: false
+visualize_output_dir: "outputs/augmentation_samples/"
+visualize_num_samples: 5  # Number of augmented samples to save

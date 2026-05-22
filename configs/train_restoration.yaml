@@ -1,0 +1,88 @@
+# Phase 5.1 — Custom SwinIR-UNet restoration training on RLPR
+defaults:
+  - model.yaml
+  - dataset.yaml
+  - logging.yaml
+
+experiment:
+  name: phase5_1_restoration_train
+  tags: [phase5.1, restoration, train, rlpr]
+  notes: "L1+SSIM+LPIPS vs Pseudo_GT_ROI"
+
+training:
+  input_mode: center_upscale  # center_upscale | fused_live (slower, more accurate)
+  fusion_method: weighted
+  val_ratio: 0.2
+  split_seed: 42
+  max_flow_pairs: 6  # only for fused_live (VRAM)
+
+trainer:
+  max_epochs: 80
+  accelerator: gpu
+  devices: 1
+  precision: 16-mixed
+  accumulate_grad_batches: 4
+  gradient_clip_val: 1.0
+  log_every_n_steps: 1
+  val_check_interval: 1.0
+  deterministic: true
+  benchmark: false
+
+dataloader:
+  batch_size: 1
+  num_workers: 0
+  pin_memory: true
+
+optimizer:
+  name: adamw
+  lr: 2.0e-4
+  weight_decay: 1.0e-4
+  betas: [0.9, 0.999]
+
+scheduler:
+  name: cosine
+  warmup_epochs: 5
+  min_lr: 1.0e-6
+
+early_stopping:
+  enabled: true
+  monitor: val_psnr
+  mode: max
+  patience: 20
+
+checkpointing:
+  monitor: val_psnr
+  mode: max
+  save_top_k: 3
+  save_last: true
+  filename: "restoration-epoch{epoch:02d}-psnr{val_psnr:.3f}"
+  dirpath: checkpoints
+
+losses:
+  l1_weight: 1.0
+  ssim_weight: 0.5
+  lpips_weight: 0.0  # enable 0.1 when min(H,W)>=32 or after padding plates to 128px
+
+restoration:
+  base_channels: 32
+  num_blocks: 4
+  window_size: 4
+  num_heads: 4
+  use_skip_connections: true
+  ocr_refinement:
+    enabled: true
+
+hardware:
+  device: auto
+  precision: fp16
+  gradient_checkpointing: true
+  empty_cache_interval: 5
+
+reproducibility:
+  seed: 42
+  cudnn_deterministic: true
+  cudnn_benchmark: false
+
+mlflow:
+  enabled: true
+  log_model: false

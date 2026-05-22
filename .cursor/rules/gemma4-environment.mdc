@@ -1,0 +1,44 @@
+---
+description: Always use the gemma4 CUDA+Numba virtual environment for Python commands
+alwaysApply: true
+---
+
+# Python environment (mandatory)
+
+Use the **gemma4** venv at `D:\gemma4\gemma4` for all installs, scripts, training, and debugging.
+
+## Activation
+
+**PowerShell:**
+```powershell
+. D:\ALPR_Research\scripts\activate_env.ps1
+```
+
+**Cmd:**
+```bat
+call D:\ALPR_Research\scripts\activate_env.bat
+```
+
+**Direct interpreter (preferred in automation):**
+```
+D:\gemma4\gemma4\Scripts\python.exe
+```
+
+## Requirements
+
+- CUDA-enabled PyTorch from this venv (`torch.cuda.is_available()` must be true when GPU is present).
+- Numba is available in this environment for accelerated ops.
+- MLflow, TensorBoard, and project deps are installed into **this** venv only.
+
+## Running project scripts
+
+```powershell
+.\scripts\run.ps1 scripts\verify_phase1.py --profile train
+```
+
+Or:
+```powershell
+D:\gemma4\gemma4\Scripts\python.exe scripts\verify_phase1.py
+```
+
+Never use bare `python` without confirming it resolves to `D:\gemma4\gemma4\Scripts\python.exe`.

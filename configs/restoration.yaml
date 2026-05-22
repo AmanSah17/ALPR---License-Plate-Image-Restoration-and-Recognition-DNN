@@ -1,0 +1,40 @@
+# Phase 5 — SwinIR-UNet restoration
+defaults:
+  - temporal_fusion.yaml
+
+phase:
+  name: restoration
+  version: 1
+
+restoration:
+  encoder: swinir_light
+  decoder: unet_light
+  base_channels: 32
+  num_blocks: 4
+  window_size: 4
+  num_heads: 4
+  use_skip_connections: true
+  global_residual: true
+  ocr_refinement:
+    enabled: true  # edge-guided hook (no PARSeq yet)
+  checkpoint_path: null  # optional .pt weights
+
+inference:
+  fusion_method: weighted  # use Phase-4 best or fixed method
+  upscale_to_gt: true  # resize fused to Pseudo_GT_ROI size before restore
+  mixed_precision: true
+
+output:
+  save_restored_png: true
+  save_baseline_comparison: true
+  save_error_maps: true
+  save_feature_summary: true
+
+benchmark:
+  profile_parameters: true
+  profile_flops: false
+  timed_iterations: 5
+  warmup_iterations: 2
+
+reproducibility:
+  seed: 42

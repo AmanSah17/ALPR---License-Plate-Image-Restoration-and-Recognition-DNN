@@ -1,0 +1,63 @@
+# Logging, experiment tracking, and artifact management
+logging:
+  level: INFO  # DEBUG | INFO | WARNING | ERROR
+  console: true
+  file: true
+  json_file: true
+  rich_tracebacks: true
+  log_gpu_memory: true
+
+experiment:
+  base_dir: outputs
+  experiments_subdir: experiments
+  timestamp_format: "%Y%m%d_%H%M%S"
+  auto_name: true
+  save_config_snapshot: true
+  save_metadata: true
+
+directories:
+  checkpoints: checkpoints
+  logs: logs
+  metrics: metrics
+  visualizations: visualizations
+  predictions: predictions
+  reports: reports
+  configs: configs
+
+# Primary experiment tracker (canonical metrics store)
+mlflow:
+  enabled: true
+  experiment_name: mf_lpr2
+  tracking_uri: auto  # auto -> outputs/mlruns under project root
+  artifact_location: null
+  nested: false
+  tags: {}
+  log_artifacts: true
+  log_params: true
+  log_system_metrics: true
+
+# Optional local live curves (mirrors MLflow scalars)
+tensorboard:
+  enabled: true
+  flush_secs: 30
+  log_hparams: true
+
+# Deprecated in favor of MLflow; kept for optional dual logging
+wandb:
+  enabled: false
+  project: mf_lpr2
+  entity: null
+  mode: disabled
+  log_artifacts: false
+  log_code: false
+
+artifacts:
+  versioning: true
+  compress_checkpoints: false
+  max_visualization_images: 32
+  metadata_filename: experiment_metadata.json
+
+gpu:
+  low_vram_mode: true
+  max_split_size_mb: 128
+  allow_tf32: false

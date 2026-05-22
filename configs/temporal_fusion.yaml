@@ -1,0 +1,31 @@
+# Phase 4 — Temporal fusion configuration
+defaults:
+  - optical_flow.yaml
+
+phase:
+  name: temporal_fusion
+  version: 1
+
+temporal_fusion:
+  # Compare all methods during verify; production can set single method
+  methods: [mean, weighted, attention]
+  primary_method: attention
+  num_heads: 4
+  hidden_channels: 16
+  dropout: 0.0
+  temperature: 1.0
+  use_flow_confidence: true  # weight frames by inverse flow magnitude
+  confidence_power: 1.0
+
+output:
+  save_fused_png: true
+  save_attention_maps: true
+  save_comparison_panel: true
+  save_method_comparison: true
+
+benchmark:
+  warmup_iterations: 2
+  timed_iterations: 5
+
+reproducibility:
+  seed: 42

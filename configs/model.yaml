@@ -1,0 +1,39 @@
+# Model architecture configuration (Phases 3–6+)
+project_name: mf_lpr2
+
+optical_flow:
+  backend: raft_small
+  pretrained: true
+  mixed_precision: true
+  batch_size: 1
+  iters: 12
+  temporal_filter:
+    enabled: true
+    method: median  # median | gaussian | ema
+    window_size: 3
+
+temporal_fusion:
+  method: attention  # mean | weighted | attention
+  num_heads: 4
+  dropout: 0.0
+
+restoration:
+  encoder: swinir_light
+  decoder: unet_light
+  base_channels: 32
+  num_blocks: 4
+  use_skip_connections: true
+  ocr_refinement:
+    enabled: false
+
+ocr:
+  backend: parseq
+  pretrained: true
+  charset: alphanumeric
+  max_length: 12
+
+hardware:
+  device: auto  # auto | cuda | cpu
+  precision: fp16  # fp32 | fp16 | bf16
+  gradient_checkpointing: true
+  empty_cache_interval: 10

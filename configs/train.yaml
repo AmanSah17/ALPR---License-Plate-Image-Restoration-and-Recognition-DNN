@@ -1,0 +1,64 @@
+# Training configuration (Phase 8+)
+defaults:
+  - model.yaml
+  - dataset.yaml
+
+experiment:
+  name: mf_lpr2_train
+  tags: [rlpr, restoration, multi_frame]
+  notes: "MF-LPR2-inspired multi-frame plate restoration"
+
+trainer:
+  max_epochs: 100
+  accelerator: auto
+  devices: 1
+  precision: 16-mixed
+  accumulate_grad_batches: 4
+  gradient_clip_val: 1.0
+  log_every_n_steps: 10
+  val_check_interval: 1.0
+  deterministic: true
+  benchmark: false  # reproducibility over cudnn autotune
+
+optimizer:
+  name: adamw
+  lr: 1.0e-4
+  weight_decay: 1.0e-4
+  betas: [0.9, 0.999]
+
+scheduler:
+  name: cosine
+  warmup_epochs: 5
+  min_lr: 1.0e-6
+
+early_stopping:
+  enabled: true
+  monitor: val/loss
+  mode: min
+  patience: 15
+
+checkpointing:
+  monitor: val/psnr
+  mode: max
+  save_top_k: 3
+  save_last: true
+  resume: auto  # auto | true | false
+
+losses:
+  l1_weight: 1.0
+  ssim_weight: 0.5
+  lpips_weight: 0.1
+  edge_weight: 0.05
+  temporal_weight: 0.1
+  ocr_aware_weight: 0.0
+
+reproducibility:
+  seed: 42
+  cudnn_deterministic: true
+  cudnn_benchmark: false
+
+logging:
+  use_mlflow: true
+  use_tensorboard: true
+  use_wandb: false
+  log_images_every_n_epochs: 5

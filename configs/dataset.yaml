@@ -1,0 +1,41 @@
+# RLPR dataset configuration (Phase 2+)
+dataset:
+  name: rlpr
+  root_dir: "Realistic License Plate Restoration and Recognition Dataset (RLPR)"
+  split: evaluation  # RLPR is evaluation-only per paper
+  num_frames: 31
+  center_frame_index: 16  # 1-based naming -> Plate_crop/16.png
+  frame_glob: "Plate_crop/*.png"
+  pseudo_gt_filename: "Pseudo_GT_ROI.png"
+  labels_file: "Label/Labels.txt"
+  image_extensions: [".png", ".jpg", ".jpeg"]
+
+loading:
+  batch_size: 1  # low VRAM default
+  num_workers: 0  # Windows-safe default
+  pin_memory: true
+  prefetch_factor: 2
+  persistent_workers: false
+
+preprocessing:
+  resize: null  # [H, W] or null to keep native size
+  normalize:
+    mean: [0.5, 0.5, 0.5]
+    std: [0.5, 0.5, 0.5]
+  clahe:
+    enabled: false
+    clip_limit: 2.0
+    tile_grid_size: [8, 8]
+
+augmentation:
+  enabled: false  # off for evaluation benchmark
+  horizontal_flip: 0.0
+  rotation_deg: 0.0
+  brightness: 0.0
+  contrast: 0.0
+
+validation:
+  strict_paths: true
+  min_frames: 31
+  max_frames: 31
+  check_label_count: true
