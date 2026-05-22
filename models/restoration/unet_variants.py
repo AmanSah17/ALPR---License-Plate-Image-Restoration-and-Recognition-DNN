@@ -13,6 +13,15 @@ import torch.nn.functional as F
 from typing import List, Optional, Tuple
 
 
+def pad_and_cat(x: torch.Tensor, skip: torch.Tensor) -> torch.Tensor:
+    """Pad x to match skip tensor's spatial dimensions before concatenating."""
+    diffY = skip.size()[2] - x.size()[2]
+    diffX = skip.size()[3] - x.size()[3]
+    if diffY > 0 or diffX > 0:
+        x = F.pad(x, [diffX // 2, diffX - diffX // 2, diffY // 2, diffY - diffY // 2])
+    return torch.cat([x, skip], dim=1)
+
+
 class ConvBlock(nn.Module):
     """Convolution block: Conv -> GroupNorm -> GELU"""
 
@@ -135,11 +144,11 @@ class UNetLite(nn.Module):
 
         # Decoder with skip connections
         x = self.up1(x)
-        x = torch.cat([x, skip2], dim=1)
+        x = pad_and_cat(x, skip2)
         x = self.dec1(x)
 
         x = self.up2(x)
-        x = torch.cat([x, skip1], dim=1)
+        x = pad_and_cat(x, skip1)
         x = self.dec2(x)
 
         # Output
@@ -216,15 +225,15 @@ class UNetStandard(nn.Module):
 
         # Decoder
         x = self.up1(x)
-        x = torch.cat([x, skip3], dim=1)
+        x = pad_and_cat(x, skip3)
         x = self.dec1(x)
 
         x = self.up2(x)
-        x = torch.cat([x, skip2], dim=1)
+        x = pad_and_cat(x, skip2)
         x = self.dec2(x)
 
         x = self.up3(x)
-        x = torch.cat([x, skip1], dim=1)
+        x = pad_and_cat(x, skip1)
         x = self.dec3(x)
 
         # Output
@@ -322,15 +331,15 @@ class UNetDense(nn.Module):
 
         # Decoder
         x = self.up1(x)
-        x = torch.cat([x, skip3], dim=1)
+        x = pad_and_cat(x, skip3)
         x = self.dec1(x)
 
         x = self.up2(x)
-        x = torch.cat([x, skip2], dim=1)
+        x = pad_and_cat(x, skip2)
         x = self.dec2(x)
 
         x = self.up3(x)
-        x = torch.cat([x, skip1], dim=1)
+        x = pad_and_cat(x, skip1)
         x = self.dec3(x)
 
         # Output
